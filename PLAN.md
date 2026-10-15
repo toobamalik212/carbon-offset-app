@@ -34,7 +34,7 @@ carbon-offset-app/
 
 ## Before you start (one time, 10 minutes)
 
-- [ ] Commit what you have now so you have a safe starting point:
+- [x] Commit what you have now so you have a safe starting point:
   ```bash
   git add -A && git commit -m "Rename app to Ecobex"
   ```
@@ -48,9 +48,9 @@ carbon-offset-app/
 ### Step 1. Organise the repo
 **What happens:** your current app moves into `dashboard/`, and Claude writes `CLAUDE.md` (architecture, privacy rules, allowed permissions, "plain JavaScript, no TypeScript").
 
-- [ ] Prompt: *"Do Step 1 of PLAN.md."*
-- [ ] Check it: `cd dashboard && npm install && npm run dev` → the site opens with the Ecobex header
-- [ ] Commit: `git add -A && git commit -m "Step 1: repo structure + CLAUDE.md"`
+- [x] Prompt: *"Do Step 1 of PLAN.md."*
+- [x] Check it: `cd dashboard && npm install && npm run dev` → the site opens with the Ecobex header
+- [x] Commit: `git add -A && git commit -m "Step 1: repo structure + CLAUDE.md"`
 
 ### Step 2. Create the extension
 **What happens:** Claude creates `extension/` with WXT, React and Tailwind. The popup says "Hello from Ecobex".
