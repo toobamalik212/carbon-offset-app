@@ -1,14 +1,21 @@
 # Ecobex: step-by-step build guide
 
-**Ecobex** is a Chrome extension that tracks your browsing, estimates the CO₂ and water it causes, and helps you offset it.
+**Ecobex** is a website where you enter your digital habits, see an estimate of the CO₂ and water they cause, and find ways to offset it.
 
-Goal for v0: the extension tracks you and shows CO₂ and water in a popup. The dashboard website has sign up, sign in, onboarding and a dashboard screen. **Frontend only: no backend, no database, no server.** No payments yet. The "Offset your impact" button links to a verified offset provider.
+Goal for v0: a calculator, results, sign up, sign in, onboarding and a dashboard, all running in the browser. **Frontend only: no backend, no database, no server.** No payments. The "Offset your impact" button links to a verified offset provider.
 
-**How to use this guide:** do one step per Claude Code session. Start each session with:
+**How to use this guide:** do one step per session. Start each session with:
 
 > *Read CLAUDE.md and PLAN.md. Do Step N. Explain what you changed in plain words.*
 
-Then test it yourself, commit, and tick the box.
+Then check it yourself, commit, and tick the box.
+
+**Run the site locally:**
+```bash
+cd dashboard
+npm run dev
+```
+Open the `localhost` link it prints. Press `Ctrl+C` to stop.
 
 ---
 
@@ -16,148 +23,132 @@ Then test it yourself, commit, and tick the box.
 
 ```
 carbon-offset-app/
-├── extension/        the Ecobex Chrome extension (WXT + React + Tailwind)
-│   ├── entrypoints/
-│   │   ├── background.js    adds up data per site per day
-│   │   ├── content.js       measures the bytes each page loads
-│   │   ├── ai.content.js    counts prompts on ChatGPT, Gemini and Claude
-│   │   └── popup/           the window that opens when you click the icon
-│   └── lib/
-│       ├── footprint.js     CO₂ and water maths (uses CO2.js)
-│       └── factors.js       every figure we use, with its source
-├── dashboard/        the Ecobex website (your current app, deployed on Vercel)
-├── CLAUDE.md         rules Claude Code follows in every session
-└── PLAN.md           this guide
+├── dashboard/                the Ecobex website
+│   └── src/
+│       ├── components/       reusable pieces (Header, inputs, cards)
+│       ├── pages/            one file per page
+│       ├── data/factors.js   every figure we use, with its source
+│       └── lib/footprint.js  CO₂ and water maths
+├── CLAUDE.md                 rules Claude follows in every session
+└── PLAN.md                   this guide
 ```
 
 ---
 
-## Before you start (one time, 10 minutes)
+## Done so far
 
-- [x] Commit what you have now so you have a safe starting point:
-  ```bash
-  git add -A && git commit -m "Rename app to Ecobex"
-  ```
-- [ ] Make sure Node is installed: `node -v` should print 20 or higher.
-- [ ] Use Chrome (not Arc or Brave) for testing, so what you see matches what users see.
+- [x] React + Vite + Tailwind set up
+- [x] App renamed to Ecobex
+- [x] Step 0. Organise the repo: website moved to `dashboard/`, `CLAUDE.md` written
+- [x] Step 1. Housekeeping: plan rewritten for frontend only, tool folders ignored, pushed to GitHub
 
 ---
 
-## Phase A: Ecobex working on your machine (about 2 weeks part-time)
+## Phase A: the core calculator
 
-### Step 1. Organise the repo
-**What happens:** your current app moves into `dashboard/`, and Claude writes `CLAUDE.md` (architecture, privacy rules, allowed permissions, "plain JavaScript, no TypeScript").
-
-- [x] Prompt: *"Do Step 1 of PLAN.md."*
-- [x] Check it: `cd dashboard && npm install && npm run dev` → the site opens with the Ecobex header
-- [x] Commit: `git add -A && git commit -m "Step 1: repo structure + CLAUDE.md"`
-
-### Step 2. Create the extension
-**What happens:** Claude creates `extension/` with WXT, React and Tailwind. The popup says "Hello from Ecobex".
+### Step 2. Pages and navigation
+**What happens:** the site gets separate pages (Home, Calculator, Results, How we calculate) with links in the header. Uses React Router (new library, ask first).
 
 - [ ] Prompt: *"Do Step 2 of PLAN.md."*
-- [ ] Run it: `cd extension && npm install && npm run dev`
-- [ ] Load it in Chrome: open `chrome://extensions` → switch on **Developer mode** (top right) → **Load unpacked** → choose `extension/.output/chrome-mv3-dev`
-- [ ] Pin it: puzzle-piece icon in the toolbar → pin Ecobex
+- [ ] Check: click each header link; the address bar and the page change, and the back button works
 
-✅ **Done when:** clicking the Ecobex icon shows your popup.
+✅ **Done when:** you can move between all four pages.
 
-### Step 3. Track data transferred
-**What happens:** on every page, a script measures the bytes downloaded and sends a total to the background worker. Totals are saved in your browser only, grouped by site and day.
+### Step 3. The figures file
+**What happens:** `data/factors.js` holds every figure (energy per hour of video, per video call, per AI prompt, grid intensity, water per kWh), each with a link to its source.
 
-- [ ] Prompt: *"Do Step 3 of PLAN.md."*
-- [ ] Test: open YouTube, play a video for a minute, open the popup
+- [ ] Prompt: *"Do Step 3 of PLAN.md. Show me the figures you chose and their sources before writing code."*
+- [ ] Review the figures yourself (you'll quote them on the "How we calculate" page)
 
-✅ **Done when:** the popup shows "Today: X MB" and the number grows while the video plays, plus your top 5 sites.
+✅ **Done when:** every figure has a source you're happy with.
 
-### Step 4. Track active time
-**What happens:** only the tab you are looking at counts. Time stops when you're idle or Chrome is in the background.
+### Step 4. The calculator
+**What happens:** inputs for video streaming, video calls, music, social media, AI prompts, emails and cloud storage. Built from one reusable input component.
 
 - [ ] Prompt: *"Do Step 4 of PLAN.md."*
-- [ ] Test: stay on one site for 2 minutes, then walk away for 5
+- [ ] Check: change each input and see the values update
 
-✅ **Done when:** the popup shows about 2 minutes for that site, not 7.
+✅ **Done when:** all habits can be entered.
 
-### Step 5. Count AI prompts
-**What happens:** on chatgpt.com, gemini.google.com and claude.ai, Ecobex counts each prompt you send. It never reads what you typed.
+### Step 5. Results
+**What happens:** daily, monthly and yearly CO₂ and water, a breakdown by habit, and comparisons like "≈ 3 phone charges". Tests check the maths.
 
 - [ ] Prompt: *"Do Step 5 of PLAN.md."*
-- [ ] Test: send 3 prompts in ChatGPT
-
-✅ **Done when:** the popup shows "AI prompts today: 3".
-
-### Step 6. CO₂ and water maths
-**What happens:** CO2.js turns bytes into grams of CO₂. Water = energy used × litres per kWh. Every figure lives in `lib/factors.js` with a link to its source. Tests check the maths.
-
-- [ ] Prompt: *"Do Step 6 of PLAN.md. Show me the figures you chose and their sources before writing code."*
-- [ ] Review the figures yourself (you'll quote them on the "How we calculate" page)
 - [ ] Run the tests: `npm test`
 
-✅ **Done when:** the tests pass and the popup shows g CO₂ and litres of water.
+✅ **Done when:** the numbers update as you change your answers, and the tests pass.
 
-### Step 7. Design the popup
-**What happens:** your design goes in. Claude can work from a Figma link or screenshots.
+### Step 6. Remember answers
+**What happens:** your answers are saved in the browser, so they're still there after a refresh.
 
-- [ ] Today's footprint, weekly trend, comparisons like "≈ 3 phone charges", top sites
-- [ ] A "How we calculate" page inside the extension
-- [ ] An **"Offset your impact"** button that opens a verified provider's page (no payments in our code)
-- [ ] Prompt: *"Do Step 7 of PLAN.md using this design: [Figma link or screenshots]."*
+- [ ] Prompt: *"Do Step 6 of PLAN.md."*
+- [ ] Check: fill in the calculator, refresh the page, see your answers
 
-✅ **Done when:** it looks like your design, with real numbers.
-
-### Step 8. Share the demo with your LM
-- [ ] Record a 1–2 minute Loom: browse, open the popup, show the numbers changing
-- [ ] Build a zip: `cd extension && npm run zip` → the file appears in `extension/.output/`
-- [ ] Send the zip on Slack with these steps: unzip → `chrome://extensions` → Developer mode → Load unpacked → pick the folder
+✅ **Done when:** answers survive a refresh.
 
 ---
 
-## Phase B: the dashboard website, frontend only (no backend)
+## Phase B: the app experience (demo, saved in the browser)
 
-Everything here runs in the browser. "Sign up" and "sign in" are **screens and flows only**: the account is a pretend one saved in the browser (`localStorage`) and the numbers on the dashboard are sample data. It is not real security, and that's fine for a v0 demo.
+"Sign up" and "sign in" are **screens and flows only**: the account is a pretend one saved in the browser (`localStorage`). It is not real security, and that's fine for a v0 demo.
 
-### Step 9. Put the dashboard on Vercel
-- [ ] Push the repo to GitHub
+### Step 7. Sign up and sign in
+- [ ] Prompt: *"Do Step 7 of PLAN.md."*
+- [ ] Check: sign up, refresh (still signed in), sign out, sign back in, try a wrong password
+
+✅ **Done when:** sign up → sign out → sign in works, with clear error messages.
+
+### Step 8. Onboarding
+**What happens:** a short first-time flow after sign up: welcome, your goals, then the habits quiz.
+
+- [ ] Prompt: *"Do Step 8 of PLAN.md using this design: [Figma link or screenshots]."*
+- [ ] Check: a new account sees onboarding once; a returning account goes straight to the dashboard
+
+✅ **Done when:** a new user lands on the dashboard after finishing onboarding.
+
+### Step 9. Dashboard
+**What happens:** your footprint, a breakdown by category and a weekly trend chart (Recharts, new library, ask first) with sample history. Every number is labelled as an estimate.
+
+- [ ] Prompt: *"Do Step 9 of PLAN.md using this design: [Figma link or screenshots]."*
+
+✅ **Done when:** it shows your own numbers and the chart.
+
+### Step 10. Offset your impact
+**What happens:** a section explaining offsetting, with a button that opens a verified provider's site. No payments in our code.
+
+- [ ] Prompt: *"Do Step 10 of PLAN.md."*
+
+✅ **Done when:** the button opens the provider in a new tab.
+
+---
+
+## Phase C: polish and share
+
+### Step 11. Design system
+**What happens:** your colours, fonts and spacing become tokens in `index.css`, from a design system you choose or your own.
+
+- [ ] Prompt: *"Do Step 11 of PLAN.md using this design system: [link]."*
+
+### Step 12. Phone, dark mode and accessibility
+- [ ] Prompt: *"Do Step 12 of PLAN.md."*
+- [ ] Check: phone and desktop widths, dark mode, keyboard-only use
+
+### Step 13. Go live on Vercel
 - [ ] In Vercel: **Add New Project** → choose the repo → set **Root Directory** to `dashboard` → Deploy
 - [ ] Optional: connect your own domain
 
 ✅ **Done when:** you have a link you can share.
 
-### Step 10. Sign up and sign in screens
-**What happens:** a sign-up form and a sign-in form with validation and error messages. The account is saved in the browser only. No server.
-
-- [ ] Prompt: *"Do Step 10 of PLAN.md."*
-- [ ] Test: sign up, refresh the page (still signed in), sign out, sign back in, try a wrong password
-
-✅ **Done when:** you can go through sign up → sign out → sign in without errors.
-
-### Step 11. Onboarding
-**What happens:** a short first-time flow after sign-up (e.g. welcome, what Ecobex tracks, your goals, install the extension). Choices are saved in the browser.
-
-- [ ] Prompt: *"Do Step 11 of PLAN.md using this design: [Figma link or screenshots]."*
-- [ ] Test: a new account sees onboarding once; a returning account goes straight to the dashboard
-
-✅ **Done when:** a new user lands on the dashboard after finishing onboarding.
-
-### Step 12. Dashboard display
-**What happens:** the dashboard screen with today's footprint, weekly trend, comparisons and top categories, using sample data. Every number is labelled as an estimate.
-
-- [ ] Prompt: *"Do Step 12 of PLAN.md using this design: [Figma link or screenshots]."*
-
-✅ **Done when:** it looks like your design, works on phone and desktop widths, and the "Offset your impact" button opens the external provider.
-
 ---
 
 ## Later (not in v0)
-- Backend: real accounts, a database, syncing the extension's daily totals to the dashboard (daily totals by category only, never domains or URLs)
-- Publish the extension on the Chrome Web Store (privacy policy page, listing, US$5 developer fee, unlisted)
-- Payments (Stripe), then buying and retiring credits in bulk each month (Gold Standard, Verra or Puro.earth; prefer removals)
-- Enterprise rollout: IT force-installs through Chrome policy, companies see team totals only
-- Desktop companion app
+- A backend: real accounts and saved history across devices
+- The Chrome extension that measures browsing automatically
+- Payments, then buying and retiring credits (Gold Standard, Verra or Puro.earth; prefer removals)
 
 ---
 
 ## If something goes wrong
-- **Extension not updating?** Click the reload ↻ icon on its card in `chrome://extensions`, then refresh the web page.
-- **Errors?** On `chrome://extensions`, click **Errors** or **service worker** on the Ecobex card. Copy the message into Claude Code.
+- **Page not updating?** Check the terminal running `npm run dev` for errors, then refresh.
+- **"Could not read package.json"?** You're in the wrong folder. Run `cd dashboard` first.
 - **A step broke everything?** `git restore .` takes you back to your last commit.
