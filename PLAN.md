@@ -2,7 +2,7 @@
 
 **Ecobex** is a Chrome extension that tracks your browsing, estimates the CO₂ and water it causes, and helps you offset it.
 
-Goal for v0: the extension tracks you, shows CO₂ and water in a popup, and the dashboard shows the same numbers. No payments yet. The "Offset your impact" button links to a verified offset provider.
+Goal for v0: the extension tracks you and shows CO₂ and water in a popup. The dashboard website has sign up, sign in, onboarding and a dashboard screen. **Frontend only: no backend, no database, no server.** No payments yet. The "Offset your impact" button links to a verified offset provider.
 
 **How to use this guide:** do one step per Claude Code session. Start each session with:
 
@@ -112,7 +112,9 @@ carbon-offset-app/
 
 ---
 
-## Phase B: the dashboard with real data (about 1–2 weeks, have a developer review it)
+## Phase B: the dashboard website, frontend only (no backend)
+
+Everything here runs in the browser. "Sign up" and "sign in" are **screens and flows only**: the account is a pretend one saved in the browser (`localStorage`) and the numbers on the dashboard are sample data. It is not real security, and that's fine for a v0 demo.
 
 ### Step 9. Put the dashboard on Vercel
 - [ ] Push the repo to GitHub
@@ -121,22 +123,34 @@ carbon-offset-app/
 
 ✅ **Done when:** you have a link you can share.
 
-### Step 10. Sign-in and sync
-- [ ] Create a free Supabase project
-- [ ] Prompt: *"Do Step 10 of PLAN.md."* (sign-in, a `daily_totals` table with date, category, bytes, CO₂ and water, **never URLs**)
-- [ ] The extension sends daily totals once a day after sign-in. The dashboard shows charts.
-- [ ] ⚠️ Ask a VenDian developer to review the database security rules (RLS) before anyone else signs up
+### Step 10. Sign up and sign in screens
+**What happens:** a sign-up form and a sign-in form with validation and error messages. The account is saved in the browser only. No server.
 
-### Step 11. Publish on the Chrome Web Store (unlisted)
-- [ ] A privacy policy page on the Vercel site
-- [ ] Store listing: name **Ecobex**, icon, 3–5 screenshots, a short reason for each permission
-- [ ] Pay the one-time US$5 developer fee
-- [ ] Upload the zip and set visibility to **Unlisted** (or **Private** to venturedive.com if IT allows)
-- [ ] Review usually takes a few days. Don't promise a date.
+- [ ] Prompt: *"Do Step 10 of PLAN.md."*
+- [ ] Test: sign up, refresh the page (still signed in), sign out, sign back in, try a wrong password
+
+✅ **Done when:** you can go through sign up → sign out → sign in without errors.
+
+### Step 11. Onboarding
+**What happens:** a short first-time flow after sign-up (e.g. welcome, what Ecobex tracks, your goals, install the extension). Choices are saved in the browser.
+
+- [ ] Prompt: *"Do Step 11 of PLAN.md using this design: [Figma link or screenshots]."*
+- [ ] Test: a new account sees onboarding once; a returning account goes straight to the dashboard
+
+✅ **Done when:** a new user lands on the dashboard after finishing onboarding.
+
+### Step 12. Dashboard display
+**What happens:** the dashboard screen with today's footprint, weekly trend, comparisons and top categories, using sample data. Every number is labelled as an estimate.
+
+- [ ] Prompt: *"Do Step 12 of PLAN.md using this design: [Figma link or screenshots]."*
+
+✅ **Done when:** it looks like your design, works on phone and desktop widths, and the "Offset your impact" button opens the external provider.
 
 ---
 
-## Phase C: later, with a team
+## Later (not in v0)
+- Backend: real accounts, a database, syncing the extension's daily totals to the dashboard (daily totals by category only, never domains or URLs)
+- Publish the extension on the Chrome Web Store (privacy policy page, listing, US$5 developer fee, unlisted)
 - Payments (Stripe), then buying and retiring credits in bulk each month (Gold Standard, Verra or Puro.earth; prefer removals)
 - Enterprise rollout: IT force-installs through Chrome policy, companies see team totals only
 - Desktop companion app

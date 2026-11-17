@@ -29,7 +29,7 @@ Each folder is its own npm project. Run `npm` commands from inside `extension/` 
 ## Privacy rules (never break these)
 1. Raw browsing data (domains, times) stays in `chrome.storage.local` on the user's device.
 2. Never store or send full URLs, page titles, page content or the text of AI prompts. Domains only, and only locally.
-3. Anything sent to a server (from Phase B on) is daily totals by **category** (e.g. "Video: 1.2 GB"), never domains.
+3. There is no backend in v0, so nothing is sent anywhere. If a backend is added later, it only ever receives daily totals by **category** (e.g. "Video: 1.2 GB"), never domains.
 4. No analytics, trackers or third-party scripts in the extension.
 
 ## Allowed extension permissions
@@ -42,7 +42,12 @@ Only these. Ask before adding anything else, because Chrome Web Store review che
 - Anything a user sees must be traceable to `lib/factors.js` and explained on the "How we calculate" page.
 
 ## Out of scope until PLAN.md says otherwise
-Payments, buying offsets, backend or sign-in, the desktop app. The "Offset your impact" button only links to an external, verified offset provider.
+Payments, buying offsets, any backend, database or server, real authentication, the desktop app. The "Offset your impact" button only links to an external, verified offset provider.
+
+## Frontend only (v0)
+- The project is frontend only. Don't add Supabase, Firebase, API routes or any server code.
+- Sign up, sign in and onboarding (Steps 10–11 in `PLAN.md`) are UI flows. The account and onboarding answers are saved in `localStorage` in the dashboard, and the dashboard shows sample data. Say so in a short comment where this is done, so nobody mistakes it for real security.
+- Never store a real password. Treat anything typed into the sign-up form as demo data.
 
 ## Done means
 - It runs: `npm run dev` works in the folder you changed.

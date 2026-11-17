@@ -26,3 +26,7 @@ dist-ssr
 # Extension build output (WXT)
 .output
 .wxt
+
+# Third-party tool repos kept locally, not part of Ecobex
+agent-skills/
+taste-skill/
