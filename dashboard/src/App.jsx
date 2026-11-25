@@ -5,6 +5,7 @@ import Calculator from './pages/Calculator.jsx'
 import Results from './pages/Results.jsx'
 import HowWeCalculate from './pages/HowWeCalculate.jsx'
 import NotFound from './pages/NotFound.jsx'
+import Preview from './pages/Preview.jsx'
 
 export default function App() {
   return (
@@ -17,6 +18,8 @@ export default function App() {
           <Route path="/calculator" element={<Calculator />} />
           <Route path="/results" element={<Results />} />
           <Route path="/how-we-calculate" element={<HowWeCalculate />} />
+          {/* Design system showcase, for checking the Untitled UI components */}
+          <Route path="/preview" element={<Preview />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

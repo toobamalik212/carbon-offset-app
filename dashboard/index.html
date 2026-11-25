@@ -5,6 +5,16 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ecobex</title>
+    <script>
+      // Follow the browser's light or dark setting. Untitled UI switches to dark with a "dark-mode" class on <html>.
+      // This only reads the setting from the browser; nothing is stored or sent anywhere.
+      (function () {
+        var q = window.matchMedia('(prefers-color-scheme: dark)')
+        function apply() { document.documentElement.classList.toggle('dark-mode', q.matches) }
+        apply()
+        q.addEventListener('change', apply)
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

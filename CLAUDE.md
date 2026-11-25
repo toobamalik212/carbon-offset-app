@@ -3,13 +3,13 @@
 Ecobex is a Chrome extension that measures people's digital habits (streaming, video calls, AI prompts and so on), shows an estimate of the CO₂ and water those habits cause, and points them to ways to offset it. **For now we only build the extension's frontend screens**, as ordinary web pages in `dashboard/` with sample data: onboarding, the dashboard, and the toolbar popup. The extension itself (the part that measures browsing) comes later. The step-by-step build plan is in `PLAN.md`. Work on one step at a time and don't start the next one unless asked.
 
 ## Unique proposition
-Ecobex shows the CO₂ and water of your whole digital day, not just your AI chats, as estimates with the method and sources visible, and takes you to a verified offset provider when you're ready. Screens should serve that: cover AI, streaming and video calls; show water next to CO₂; keep the method one click away; no account needed to see value. The research behind it is in `research/competitive-analysis.md`.
+Ecobex shows the CO₂ and water of your digital habits as ranges, with every assumption visible, and shows you who you would offset with, at what price and to which standard, before you leave for their site. Screens should serve that: show ranges and a central value, labelled as estimates; water next to CO₂ where we have a sourced figure; the method one tap away; the offset step naming provider, price per tonne and standard (we still take no payments); no account needed to see value. Don't claim video calls until `factors.js` has a sourced figure. The research behind this is in `research/competitive-analysis.md`.
 
 ## Who you're working with
 The owner is a designer, not a developer.
 - Explain every change in plain words: what changed, why, and how to check it in the browser.
 - Prefer simple, readable code over clever code. Small files, clear names, short comments where the "why" isn't obvious.
-- Plain JavaScript (`.js` / `.jsx`). No TypeScript.
+- Plain JavaScript (`.js` / `.jsx`) for everything we write: screens, data, maths. One exception: the copied Untitled UI components in `src/components/untitled/` are TypeScript (`.tsx`). Leave them as they are and import them from our JavaScript. Don't write new TypeScript elsewhere.
 - Before adding a new library, say what it's for and ask first.
 
 ## Repo layout
@@ -21,8 +21,20 @@ Run `npm` commands from inside `dashboard/`, never from the root.
 
 `agent-skills/` and `taste-skill/` are third-party tool repos kept locally. They are ignored by git and are not part of Ecobex. Don't edit them.
 
+## Design system: Untitled UI
+We build on the open-source Untitled UI React library (https://github.com/untitleduico/react, MIT licence). Components are copied into the project, not installed as a package.
+- Copied components live in `src/components/untitled/`, laid out like the repo (`base/`, `application/`, `foundations/`). Use them before building anything custom. Only copy a component when a screen needs it.
+- Copy from the open-source repo only. Never copy from Untitled UI PRO, which has a separate paid licence.
+- Inside `untitled/`, keep their conventions: kebab-case file names and `Aria`-prefixed imports from `react-aria-components`. Don't restyle them by editing the files; change colours and type through tokens in `src/styles/theme.css`.
+- Colours: the **Aurora** palette lives in `src/styles/theme.css` (preview: https://claude.ai/artifact/GzuiBZFNMvxxbBXYRvt8LH). **Lake** (blue-green) is the brand colour (`brand-*`), **Dusk** (violet) the accent (`purple-*`, `dusk-*`), **Night** (blue-tinted) replaces the grays (`neutral-*`, `gray-*`), **Aurora** green is success (`green-*`), **Alpenglow** amber is warning (`yellow-*`), **Ember** red is error (`red-*`). Untitled UI's semantic tokens read those names, so the remap is deliberate. Use the theme's colour classes and never raw hex values in screens. Keep Lake out of status messages and Aurora green out of the main button.
+- Type: headings use **Outfit** (`--font-display`), body and interface use **Inter** (`--font-body`). Both are self-hosted through the `@fontsource-variable/outfit` and `@fontsource-variable/inter` packages, imported in `src/styles/globals.css`, so the app makes no font requests to Google or any other host. Don't add a Google Fonts link.
+- Theme: the page follows the browser's light or dark setting through a small script in `index.html` that sets the `dark-mode` class.
+- Dark mode uses the `dark-mode` class on the page root.
+- If a component the design needs doesn't exist, say so and propose the closest option instead of inventing a look.
+
 ## App structure (dashboard/src)
-- `components/`: reusable pieces (Header, cards, charts).
+- `components/`: our own reusable pieces (Header, cards, charts) and the copied `untitled/` folder.
+- `styles/`: Untitled UI's `globals.css`, `theme.css` and `typography.css`; `index.css` imports them.
 - `pages/`: one file per screen (Onboarding, Dashboard, Popup preview, How we calculate).
 - `data/factors.js`: **every** numeric factor (energy per hour of streaming, grid intensity, water per kWh, energy per AI prompt, etc.) lives here, each with a source URL in a comment. No magic numbers anywhere else.
 - `lib/footprint.js`: turns usage (hours, prompts, calls) into kWh, CO₂ and water, using `factors.js`.
