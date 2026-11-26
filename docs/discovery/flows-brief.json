@@ -1,0 +1,334 @@
+{
+  "type": "user-flows-brief",
+  "client": "Ecobex",
+  "date": "2026-11-25",
+  "mode": "new",
+  "product": "A Chrome extension that measures digital habits (streaming, AI prompts, browsing), shows the estimated CO2 and water they cause as ranges, and points people to offsetting. For v0 only its frontend screens are built, as web pages with sample data and no backend.",
+  "audience": "Anyone browsing",
+  "market": "Global, English-language, Chrome Web Store, used on a desktop computer",
+  "granularity": "Pages and their main actions",
+  "flows_asked": "F1 Sign up and onboarding, F2 Check my metrics, F3 Offset my impact, F4 Leaderboard, F5 Settings",
+  "admired": [
+    {
+      "product": "Offset AI",
+      "why": "Sign in, then a dashboard with side navigation, range tabs, KPI cards, an offset banner, projects and account pages",
+      "from": [
+        "S1",
+        "S2"
+      ]
+    },
+    {
+      "product": "GreenByte",
+      "why": "Breakdown by activity category, tips, and a leaderboard with tabs and a podium",
+      "from": [
+        "S1",
+        "S2"
+      ]
+    },
+    {
+      "product": "RainforestLand",
+      "why": "Offset by choosing an amount and a project type, with a live CO2 conversion",
+      "from": [
+        "S1",
+        "S2"
+      ]
+    },
+    {
+      "product": "GreenQuery and CarbIt",
+      "why": "Compact tabs (Overview, Analytics, Settings, Offset); per-site activity and pause tracking",
+      "from": [
+        "S1",
+        "S2"
+      ]
+    }
+  ],
+  "admired_note": "The owner invited research into more products beyond these.",
+  "manual_today": "Most people never check; a few type numbers from memory into one-off web carbon calculators",
+  "users": {
+    "roles": [
+      {
+        "value": "Person who installs Ecobex (the only role; no admin or team)",
+        "from": [
+          "S1"
+        ]
+      }
+    ],
+    "goals": [
+      {
+        "id": "U1",
+        "value": "Create an account and set up Ecobex, then land on the dashboard",
+        "from": [
+          "S1"
+        ]
+      },
+      {
+        "id": "U2",
+        "value": "See the CO2 and water of their digital habits as ranges, by category and over time",
+        "from": [
+          "S1",
+          "S4",
+          "S5"
+        ]
+      },
+      {
+        "id": "U3",
+        "value": "Find ways to offset, seeing provider, price per tonne and standard before leaving for the provider's site",
+        "from": [
+          "S1",
+          "S4"
+        ]
+      },
+      {
+        "id": "U4",
+        "value": "Compare their week-on-week change with others on a leaderboard they choose to join",
+        "from": [
+          "S1"
+        ]
+      },
+      {
+        "id": "U5",
+        "value": "Change what is tracked, their goal, profile and visibility; pause tracking; clear data and sign out",
+        "from": [
+          "S1"
+        ]
+      }
+    ]
+  },
+  "context": {
+    "constraints": [
+      {
+        "value": "Frontend only: no backend, database or server",
+        "from": [
+          "S4"
+        ]
+      },
+      {
+        "value": "Sample usage only, no real tracking; labelled as sample",
+        "from": [
+          "S4"
+        ]
+      },
+      {
+        "value": "Sign-up asks for name and email, no password; saved in localStorage with a comment saying it is a demo",
+        "from": [
+          "S1",
+          "S4"
+        ]
+      },
+      {
+        "value": "No analytics or trackers",
+        "from": [
+          "S4"
+        ]
+      },
+      {
+        "value": "Every number is an estimate (range and central value) traceable to factors.js; water beside CO2 only where sourced; method one tap away",
+        "from": [
+          "S4",
+          "S5"
+        ]
+      },
+      {
+        "value": "Offset: show provider, price per tonne and standard before leaving; only link out; no payments",
+        "from": [
+          "S4"
+        ]
+      },
+      {
+        "value": "Habits without a figure (video calls; streaming water) are listed as 'not estimated yet' with no number",
+        "from": [
+          "S6",
+          "S1"
+        ]
+      },
+      {
+        "value": "Available components lack modal, toast, empty state and sidebar navigation; side navigation must be added",
+        "from": [
+          "S6",
+          "S1"
+        ]
+      },
+      {
+        "value": "No manual entry of habits anywhere in the flows",
+        "from": [
+          "S1"
+        ]
+      }
+    ],
+    "platforms": [
+      {
+        "value": "web",
+        "from": [
+          "S1",
+          "S4"
+        ]
+      }
+    ]
+  },
+  "decisions": [
+    {
+      "value": "Usage is tracked automatically by the extension; nobody types habits into a calculator. In v0 the screens show sample usage standing in for what the extension will measure. The existing Calculator and Results pages retire.",
+      "from": [
+        "S1"
+      ]
+    },
+    {
+      "value": "Sign-up first, then onboarding, then dashboard",
+      "from": [
+        "S1"
+      ],
+      "conflicts_with": "CLAUDE.md:6, 47, 55-56 and PLAN.md:73 (no account needed to see value; no accounts in v0)"
+    },
+    {
+      "value": "Side navigation: Metrics, Offset, Leaderboard, Settings",
+      "from": [
+        "S1"
+      ]
+    },
+    {
+      "value": "Onboarding: Back on every step, Skip on Your goal and Pin Ecobex, answers saved as they go",
+      "from": [
+        "S1"
+      ]
+    },
+    {
+      "value": "Leaderboard ranks % change against each person's own last week; opt-in with a nickname; sample players in v0",
+      "from": [
+        "S1"
+      ]
+    },
+    {
+      "value": "Settings: habits and goal, profile and leaderboard visibility, pause tracking, clear data and sign out",
+      "from": [
+        "S1"
+      ]
+    },
+    {
+      "value": "First visit shows sample data labelled 'sample', no % change until there is a previous week; ranges Today, 7 days, 30 days",
+      "from": [
+        "S1"
+      ]
+    },
+    {
+      "value": "Offset provider shown as an 'example' card until one is chosen",
+      "from": [
+        "S1",
+        "S5"
+      ]
+    }
+  ],
+  "open": [
+    {
+      "question": "What does finishing 'Offset my impact' mean: picking an amount, choosing a project, or seeing plans, before linking out? The owner wants to plan this from the research.",
+      "for": "team",
+      "blocks": "F3 end state"
+    },
+    {
+      "question": "Sign-up first conflicts with the confirmed proposition 'no account needed to see value'. Keep sign-up first and update the proposition, or revisit?",
+      "for": "team"
+    },
+    {
+      "question": "Which verified offset provider, price per tonne and standard?",
+      "for": "team",
+      "from": [
+        "S5"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "kind": "client",
+      "label": "Owner intake cards",
+      "who": "Product owner (also the designer)",
+      "date": "2026-11-25"
+    },
+    {
+      "id": "S2",
+      "kind": "material",
+      "label": "Inspiration screenshots (16)",
+      "who": "Product owner",
+      "date": "2026-11-25"
+    },
+    {
+      "id": "S3",
+      "kind": "earlier",
+      "label": "Competitive analysis",
+      "name": "research/competitive-analysis.md",
+      "date": "2026-11-20"
+    },
+    {
+      "id": "S4",
+      "kind": "material",
+      "label": "Project rules",
+      "name": "CLAUDE.md",
+      "date": "2026-11-20"
+    },
+    {
+      "id": "S5",
+      "kind": "material",
+      "label": "Build plan",
+      "name": "PLAN.md",
+      "date": "2026-11-20"
+    },
+    {
+      "id": "S6",
+      "kind": "material",
+      "label": "Dashboard code",
+      "name": "dashboard/, branch extension-plan-and-factors, commit 5b895d2",
+      "date": "2026-11-25"
+    }
+  ],
+  "materials": [
+    {
+      "name": "Inspiration screenshots",
+      "access": "given"
+    },
+    {
+      "name": "research/competitive-analysis.md",
+      "access": "given"
+    },
+    {
+      "name": "CLAUDE.md, PLAN.md",
+      "access": "given"
+    },
+    {
+      "name": "dashboard/ repository",
+      "access": "given"
+    }
+  ],
+  "inputs_from": [
+    "competitive-analysis"
+  ],
+  "parts": [],
+  "out_of_scope": [
+    {
+      "item": "How we calculate, Reduce my footprint, Weekly recap and share",
+      "why": "Second run"
+    },
+    {
+      "item": "Toolbar popup",
+      "why": "Dropped from this run"
+    },
+    {
+      "item": "Step-by-step walks of named competitors",
+      "why": "Owner chose no competitor walk"
+    },
+    {
+      "item": "Payments and buying offsets in Ecobex",
+      "why": "Offset only links out to a verified provider"
+    },
+    {
+      "item": "Backend, real accounts, real tracking",
+      "why": "Frontend-only v0"
+    }
+  ],
+  "defaults": [
+    {
+      "value": "Research exclusions: none",
+      "from": [
+        "S1"
+      ]
+    }
+  ]
+}

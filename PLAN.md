@@ -1,8 +1,8 @@
 # Ecobex: step-by-step build guide
 
-**Ecobex** is a website where you enter your digital habits, see an estimate of the CO₂ and water they cause, and find ways to offset it.
+**Ecobex** is a Chrome extension that measures your digital habits, shows an estimate of the CO₂ and water they cause, and points you to ways to offset it.
 
-Goal for v0: a calculator, results, sign up, sign in, onboarding and a dashboard, all running in the browser. **Frontend only: no backend, no database, no server.** No payments. The "Offset your impact" button links to a verified offset provider.
+Goal for v0: **the extension's frontend screens only**: onboarding, the dashboard and the toolbar popup, built as web pages with sample data. **No backend, no database, no server, no real tracking yet.** No payments. The "Offset your impact" button links to a verified offset provider.
 
 **How to use this guide:** do one step per session. Start each session with:
 
@@ -10,7 +10,7 @@ Goal for v0: a calculator, results, sign up, sign in, onboarding and a dashboard
 
 Then check it yourself, commit, and tick the box.
 
-**Run the site locally:**
+**Run the screens locally:**
 ```bash
 cd dashboard
 npm run dev
@@ -23,11 +23,14 @@ Open the `localhost` link it prints. Press `Ctrl+C` to stop.
 
 ```
 carbon-offset-app/
-├── dashboard/                the Ecobex website
+├── dashboard/                the Ecobex extension screens (web app)
 │   └── src/
-│       ├── components/       reusable pieces (Header, inputs, cards)
-│       ├── pages/            one file per page
+│       ├── components/       reusable pieces (Header, cards, charts)
+│       │   └── untitled/     copied Untitled UI components (TypeScript)
+│       ├── styles/           Untitled UI theme, with Ecobex green
+│       ├── pages/            one file per screen
 │       ├── data/factors.js   every figure we use, with its source
+│       ├── data/sampleUsage.js  made-up usage history
 │       └── lib/footprint.js  CO₂ and water maths
 ├── CLAUDE.md                 rules Claude follows in every session
 └── PLAN.md                   this guide
@@ -39,79 +42,93 @@ carbon-offset-app/
 
 - [x] React + Vite + Tailwind set up
 - [x] App renamed to Ecobex
-- [x] Step 0. Organise the repo: website moved to `dashboard/`, `CLAUDE.md` written
+- [x] Step 0. Organise the repo: app moved to `dashboard/`, `CLAUDE.md` written
 - [x] Step 1. Housekeeping: plan rewritten for frontend only, tool folders ignored, pushed to GitHub
+- [x] Step 2. Pages and navigation (React Router added). The page list is now Onboarding, Dashboard, Popup preview and How we calculate; the earlier Calculator, Results and Home pages get replaced in Step 7 onwards
+- [x] Plan changed from a website to a Chrome extension, frontend screens only
+- [x] First research page: researched CO₂ and water figures per activity (published as an artifact, not yet in the repo)
 
 ---
 
-## Phase A: the core calculator
+## Phase A: research
 
-### Step 2. Pages and navigation
-**What happens:** the site gets separate pages (Home, Calculator, Results, How we calculate) with links in the header. Uses React Router (new library, ask first).
+### Step 3. Competitive analysis and unique proposition
+**What happens:** we study the existing carbon and digital-footprint extensions and web apps on the Chrome Web Store, and the manual habits they have to beat (like typing numbers into a calculator). We then write down Ecobex's unique proposition: what it does that the others don't.
 
-- [ ] Prompt: *"Do Step 2 of PLAN.md."*
-- [ ] Check: click each header link; the address bar and the page change, and the back button works
+- [x] Scope agreed first: our offering, market and region, how many competitors, and which flow the comparison covers
+- [x] Prompt: *"Run the competitive analysis from PLAN.md Step 3."* Report: `research/competitive-analysis.md`
+- [x] Read the findings and confirm the unique proposition in your own words
 
-✅ **Done when:** you can move between all four pages.
+✅ **Done when:** you have a sourced comparison and one written unique proposition that the screens will be built around.
 
-### Step 3. The figures file
-**What happens:** `data/factors.js` holds every figure (energy per hour of video, per video call, per AI prompt, grid intensity, water per kWh), each with a link to its source.
+**Confirmed unique proposition (20 Nov 2026, replaces the earlier "whole digital day" line):** *Ecobex shows the CO₂ and water of your digital habits as ranges, with every assumption visible, and shows you who you would offset with, at what price and to which standard, before you leave for their site.*
 
-- [ ] Prompt: *"Do Step 3 of PLAN.md. Show me the figures you chose and their sources before writing code."*
+Why it changed: the competitive analysis (`research/competitive-analysis.md`) found the method and offset gaps open now, while video calls still have no sourced figure (marked "not estimated yet" in `factors.js`). The "whole digital day" claim comes back once we have one.
+
+What this asks of the screens:
+- Show figures as ranges with a central value, labelled as estimates, with a confidence note where sources disagree.
+- Show water next to CO₂ wherever we have a sourced water figure; say plainly when we don't.
+- Keep the method one tap away, and a "How we calculate" page (Step 11) that lists every figure and source.
+- Make the offset step show the provider, the price per tonne and the standard before the person leaves for the provider's site. We still take no payments.
+- Let people see value without making an account.
+
+Open items this creates:
+- [ ] Choose and source a verified offset provider (price per tonne, carbon standard) before Step 10. None is chosen yet.
+- [ ] Decide whether people can edit the assumptions (as Airth and GreenQuery allow) or only read them. Not decided; not in any step yet.
+- [ ] Find a sourced video-call figure so the proposition can widen to the whole digital day.
+
+### Step 4. The figures file
+**What happens:** `data/factors.js` holds every figure (energy per hour of video, per video call, per AI prompt, grid intensity, water per kWh), each with a link to its source. Start from the research page, and check sources properly.
+
+- [x] Prompt: *"Do Step 4 of PLAN.md. Show me the figures you chose and their sources before writing code."* Written to `dashboard/src/data/factors.js`; video calls marked "not estimated yet"
 - [ ] Review the figures yourself (you'll quote them on the "How we calculate" page)
 
-✅ **Done when:** every figure has a source you're happy with.
+✅ **Done when:** every figure has a source you're happy with, and each shows a range or confidence where sources disagree.
 
-### Step 4. The calculator
-**What happens:** inputs for video streaming, video calls, music, social media, AI prompts, emails and cloud storage. Built from one reusable input component.
+### Step 5. Design system: Untitled UI
+**What happens:** we build on the open-source [Untitled UI React](https://github.com/untitleduico/react) library (MIT). Its components are copied into `src/components/untitled/`, its styles into `src/styles/`, and its libraries installed (each one approved first). The **Aurora** palette (Lake, Dusk, Night, Aurora, Alpenglow, Ember) is applied in `theme.css`, and Outfit and Inter are the chosen fonts. A preview page shows the components working.
 
-- [ ] Prompt: *"Do Step 4 of PLAN.md."*
-- [ ] Check: change each input and see the values update
+Outfit and Inter are self-hosted with the `@fontsource-variable/outfit` and `@fontsource-variable/inter` packages, so there are no third-party font requests.
 
-✅ **Done when:** all habits can be entered.
+- [x] Prompt: *"Do Step 5 of PLAN.md."* Components, theme and `/preview` page are in place; build and lint pass
+- [ ] Check: open the preview page (http://localhost:5180/preview while `npm run dev` runs) and see buttons, inputs, tabs, a table, badges, progress and a chart in Ecobex green, in light and dark mode
 
-### Step 5. Results
-**What happens:** daily, monthly and yearly CO₂ and water, a breakdown by habit, and comparisons like "≈ 3 phone charges". Tests check the maths.
+✅ **Done when:** the components render, `npm run build` and `npm run lint` pass, and our JavaScript screens can import the TypeScript components.
 
-- [ ] Prompt: *"Do Step 5 of PLAN.md."*
-- [ ] Run the tests: `npm test`
-
-✅ **Done when:** the numbers update as you change your answers, and the tests pass.
-
-### Step 6. Remember answers
-**What happens:** your answers are saved in the browser, so they're still there after a refresh.
+### Step 6. Sample usage and the maths
+**What happens:** `data/sampleUsage.js` holds made-up usage (hours of streaming, calls, AI prompts per day) standing in for what the extension will measure. `lib/footprint.js` turns it into CO₂ and water. Tests check the maths.
 
 - [ ] Prompt: *"Do Step 6 of PLAN.md."*
-- [ ] Check: fill in the calculator, refresh the page, see your answers
+- [ ] Run the tests: `npm test`
 
-✅ **Done when:** answers survive a refresh.
+✅ **Done when:** sample usage turns into sensible numbers and the tests pass.
 
 ---
 
-## Phase B: the app experience (demo, saved in the browser)
+## Phase B: the extension screens (sample data, saved in the browser)
 
-"Sign up" and "sign in" are **screens and flows only**: the account is a pretend one saved in the browser (`localStorage`). It is not real security, and that's fine for a v0 demo.
+### Step 7. Onboarding
+**What happens:** a short first-time flow: what Ecobex measures and why, a clear privacy promise, your goals, then the habits you want tracked. Answers are saved in the browser (`localStorage`).
 
-### Step 7. Sign up and sign in
-- [ ] Prompt: *"Do Step 7 of PLAN.md."*
-- [ ] Check: sign up, refresh (still signed in), sign out, sign back in, try a wrong password
-
-✅ **Done when:** sign up → sign out → sign in works, with clear error messages.
-
-### Step 8. Onboarding
-**What happens:** a short first-time flow after sign up: welcome, your goals, then the habits quiz.
-
-- [ ] Prompt: *"Do Step 8 of PLAN.md using this design: [Figma link or screenshots]."*
-- [ ] Check: a new account sees onboarding once; a returning account goes straight to the dashboard
+- [ ] Prompt: *"Do Step 7 of PLAN.md using this design: [Figma link or screenshots]."*
+- [ ] Check: a first visit shows onboarding once; after finishing, you go straight to the dashboard
 
 ✅ **Done when:** a new user lands on the dashboard after finishing onboarding.
 
-### Step 9. Dashboard
-**What happens:** your footprint, a breakdown by category and a weekly trend chart (Recharts, new library, ask first) with sample history. Every number is labelled as an estimate.
+### Step 8. Dashboard
+**What happens:** your footprint (prompts, energy, CO₂, water), a breakdown by tool and category, and a trend chart with sample history, with the time-range tabs. Charts use the Untitled UI chart components (Recharts underneath). Every number is labelled as an estimate.
+
+- [ ] Prompt: *"Do Step 8 of PLAN.md using this design: [Figma link or screenshots]."*
+
+✅ **Done when:** it shows the sample numbers, the chart and the breakdown.
+
+### Step 9. Toolbar popup
+**What happens:** the small panel that opens from the extension's toolbar icon: today's footprint at a glance and a link to the full dashboard. Built as its own page.
 
 - [ ] Prompt: *"Do Step 9 of PLAN.md using this design: [Figma link or screenshots]."*
+- [ ] Check: open the popup page at a small width and click through to the dashboard
 
-✅ **Done when:** it shows your own numbers and the chart.
+✅ **Done when:** the popup reads clearly at a small size.
 
 ### Step 10. Offset your impact
 **What happens:** a section explaining offsetting, with a button that opens a verified provider's site. No payments in our code.
@@ -120,30 +137,32 @@ carbon-offset-app/
 
 ✅ **Done when:** the button opens the provider in a new tab.
 
+### Step 11. How we calculate
+**What happens:** a page that explains every figure, range and source from `factors.js`, in plain words.
+
+- [ ] Prompt: *"Do Step 11 of PLAN.md."*
+
+✅ **Done when:** every number a user sees can be traced to a figure on this page.
+
 ---
 
 ## Phase C: polish and share
 
-### Step 11. Design system
-**What happens:** your colours, fonts and spacing become tokens in `index.css`, from a design system you choose or your own.
-
-- [ ] Prompt: *"Do Step 11 of PLAN.md using this design system: [link]."*
-
-### Step 12. Phone, dark mode and accessibility
+### Step 12. Small widths, dark mode and accessibility
 - [ ] Prompt: *"Do Step 12 of PLAN.md."*
-- [ ] Check: phone and desktop widths, dark mode, keyboard-only use
+- [ ] Check: popup and dashboard widths, dark mode, keyboard-only use
 
-### Step 13. Go live on Vercel
+### Step 13. Share a preview on Vercel
+- [ ] Add `dashboard/vercel.json` so refreshing a page like `/dashboard` doesn't show Vercel's 404 (Claude can do this)
 - [ ] In Vercel: **Add New Project** → choose the repo → set **Root Directory** to `dashboard` → Deploy
-- [ ] Optional: connect your own domain
 
-✅ **Done when:** you have a link you can share.
+✅ **Done when:** you have a link you can share to show the screens.
 
 ---
 
 ## Later (not in v0)
-- A backend: real accounts and saved history across devices
-- The Chrome extension that measures browsing automatically
+- Packaging as a real Chrome extension: manifest, background script that measures browsing, browser storage
+- Accounts and saved history across devices (needs a backend)
 - Payments, then buying and retiring credits (Gold Standard, Verra or Puro.earth; prefer removals)
 
 ---
