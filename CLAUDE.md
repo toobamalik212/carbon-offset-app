@@ -33,9 +33,11 @@ We build on the open-source Untitled UI React library (https://github.com/untitl
 - If a component the design needs doesn't exist, say so and propose the closest option instead of inventing a look.
 
 ## App structure (dashboard/src)
-- `components/`: our own reusable pieces (Header, cards, charts) and the copied `untitled/` folder.
+- `modules/`: **one folder per module**, holding everything that module needs (its pages, steps, layout, small helpers and storage). The modules follow `docs/flows.md`: `onboarding/` (F1), `metrics/` (F2), `contribute/` (F3), `leaderboard/` (F4), `settings/` (F5). Don't put a module's screens anywhere else. A module imports another module's code only for shared state (for example the onboarding store).
+- `components/`: reusable pieces shared by several modules, and the copied `untitled/` folder.
 - `styles/`: Untitled UI's `globals.css`, `theme.css` and `typography.css`; `index.css` imports them.
-- `pages/`: one file per screen (Onboarding, Dashboard, Popup preview, How we calculate).
+- `pages/`: older pages (Calculator, Results, How we calculate, Preview) until modules replace them. New screens go in `modules/`.
+- The user flows these modules build are in `docs/flows.md`, with the data in `docs/discovery/user-flows.json`.
 - `data/factors.js`: **every** numeric factor (energy per hour of streaming, grid intensity, water per kWh, energy per AI prompt, etc.) lives here, each with a source URL in a comment. No magic numbers anywhere else.
 - `lib/footprint.js`: turns usage (hours, prompts, calls) into kWh, CO₂ and water, using `factors.js`.
 - `data/sampleUsage.js`: made-up usage history that stands in for what the extension will measure later. Say so in a short comment at the top, so nobody mistakes it for real tracking.
@@ -44,7 +46,8 @@ We build on the open-source Untitled UI React library (https://github.com/untitl
 - No backend, database, server, API routes, Supabase or Firebase.
 - No real browsing tracking yet. The dashboard shows sample usage plus whatever the user types in onboarding.
 - Onboarding answers are saved in `localStorage`. Say so in a short comment where this is done, so nobody mistakes it for real security.
-- Never store a real password. There are no accounts for now.
+- Sign-up comes first (owner's decision, 25 Nov 2026): name and email only, saved in `localStorage` as a demo account. Never ask for or store a password. Sign-in only finds the account saved in this browser.
+- Before anything is tracked, onboarding shows what is measured and never collected, and the person must agree (Chrome Web Store user data policy).
 - No analytics, trackers or third-party scripts.
 - Keep screens extension-friendly: no server-only features, and the popup and dashboard should work as separate pages that could later live inside an extension.
 
@@ -53,7 +56,7 @@ We build on the open-source Untitled UI React library (https://github.com/untitl
 - Anything a user sees must be traceable to `data/factors.js` and explained on the "How we calculate" page.
 
 ## Out of scope until PLAN.md says otherwise
-Packaging as a real extension (manifest, background tracking, browser storage), accounts and sign in, payments, buying offsets, any backend. The "Offset your impact" button only links to an external, verified offset provider.
+Packaging as a real extension (manifest, background tracking, browser storage), real accounts and sign-in across devices, payments, buying offsets, any backend. The "Offset your impact" button only links to an external, verified offset provider.
 
 ## Done means
 - It runs: `npm run dev` works in `dashboard/`.
