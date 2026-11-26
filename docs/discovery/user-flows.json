@@ -1,0 +1,2238 @@
+{
+  "type": "user-flows",
+  "client": "Ecobex",
+  "date": "November 2026",
+  "ethr_platform": "web",
+  "mode": "new",
+  "summary": "How a person gets from installing Ecobex to reading their footprint, contributing to a climate project, joining the leaderboard and changing settings.",
+  "verdict": "Five flows for one role, all planned. Three decisions block building: the project rules still say no accounts, the onboarding needs a consent step the Chrome Web Store requires, and no offset provider is chosen yet.",
+  "provenance": {
+    "commit": "5b895d2",
+    "branch": "extension-plan-and-factors",
+    "sources": "The owner's answers, 16 inspiration screenshots, research/competitive-analysis.md, CLAUDE.md, PLAN.md, the dashboard code and pattern research captured 25 Nov 2026",
+    "rule": "Nothing is built yet, so every step is planned. Where the owner's decisions and the project documents disagree, the owner's decision is stated and the difference is a gap."
+  },
+  "brief": {
+    "product": "A Chrome extension that measures digital habits (streaming, AI prompts, browsing), shows the estimated CO2 and water they cause as ranges, and points people to offsetting. For v0 only its frontend screens are built, as web pages with sample data and no backend.",
+    "audience": "Anyone browsing",
+    "market": "Global, English-language, Chrome Web Store, used on a desktop computer",
+    "granularity": "Pages and their main actions",
+    "admired": [
+      {
+        "product": "Offset AI",
+        "why": "Sign in, then a dashboard with side navigation, range tabs, KPI cards, an offset banner, projects and account pages"
+      },
+      {
+        "product": "GreenByte",
+        "why": "Breakdown by activity category, tips, and a leaderboard with tabs and a podium"
+      },
+      {
+        "product": "RainforestLand",
+        "why": "Offset by choosing an amount and a project type, with a live CO2 conversion"
+      },
+      {
+        "product": "GreenQuery and CarbIt",
+        "why": "Compact tabs (Overview, Analytics, Settings, Offset); per-site activity and pause tracking"
+      }
+    ],
+    "manual_today": "Most people never check; a few type numbers from memory into one-off web carbon calculators",
+    "flows_asked": "F1 Sign up and onboarding, F2 Check my metrics, F3 Offset my impact, F4 Leaderboard, F5 Settings",
+    "users": {
+      "roles": [
+        {
+          "value": "Person who installs Ecobex",
+          "from": [
+            "S1"
+          ]
+        }
+      ],
+      "goals": [
+        {
+          "id": "U1",
+          "value": "Create an account and set up Ecobex, then land on the dashboard",
+          "from": [
+            "S1"
+          ]
+        },
+        {
+          "id": "U2",
+          "value": "See the CO2 and water of their digital habits as ranges, by category and over time",
+          "from": [
+            "S1",
+            "S4",
+            "S5"
+          ]
+        },
+        {
+          "id": "U3",
+          "value": "Find ways to offset, seeing provider, price per tonne and standard before leaving for the provider's site",
+          "from": [
+            "S1",
+            "S4"
+          ]
+        },
+        {
+          "id": "U4",
+          "value": "Compare their week-on-week change with others on a leaderboard they choose to join",
+          "from": [
+            "S1"
+          ]
+        },
+        {
+          "id": "U5",
+          "value": "Change what is tracked, their goal, profile and visibility; pause tracking; clear data and sign out",
+          "from": [
+            "S1"
+          ]
+        }
+      ]
+    },
+    "context": {
+      "constraints": [
+        {
+          "value": "Frontend only: no backend, database or server",
+          "from": [
+            "S4"
+          ]
+        },
+        {
+          "value": "Sample usage only, no real tracking; labelled as sample",
+          "from": [
+            "S4"
+          ]
+        },
+        {
+          "value": "Sign-up asks for name and email, no password; saved in localStorage with a comment saying it is a demo",
+          "from": [
+            "S1",
+            "S4"
+          ]
+        },
+        {
+          "value": "No analytics or trackers",
+          "from": [
+            "S4"
+          ]
+        },
+        {
+          "value": "Every number is an estimate (range and central value) traceable to factors.js; water beside CO2 only where sourced; method one tap away",
+          "from": [
+            "S4",
+            "S5"
+          ]
+        },
+        {
+          "value": "Offset: show provider, price per tonne and standard before leaving; only link out; no payments",
+          "from": [
+            "S4"
+          ]
+        },
+        {
+          "value": "Habits without a figure (video calls; streaming water) are listed as 'not estimated yet' with no number",
+          "from": [
+            "S6",
+            "S1"
+          ]
+        },
+        {
+          "value": "Available components lack modal, toast, empty state and sidebar navigation; side navigation must be added",
+          "from": [
+            "S6",
+            "S1"
+          ]
+        },
+        {
+          "value": "No manual entry of habits anywhere in the flows",
+          "from": [
+            "S1"
+          ]
+        },
+        {
+          "value": "Before any browsing data is collected, the extension shows a prominent disclosure in its own screens and the person takes an affirmative action to agree (Chrome Web Store user data policy)",
+          "from": [
+            "S7"
+          ]
+        },
+        {
+          "value": "Offset copy says 'contribute'; no claim that the person or product is carbon neutral or climate positive (EU Directive 2024/825 from 27 Sep 2026; UK CMA Green Claims Code)",
+          "from": [
+            "S9",
+            "S8"
+          ]
+        }
+      ],
+      "platforms": [
+        {
+          "value": "web",
+          "from": [
+            "S1",
+            "S4"
+          ]
+        }
+      ]
+    },
+    "sources": [
+      {
+        "id": "S1",
+        "kind": "client",
+        "label": "Owner intake cards",
+        "who": "Product owner (also the designer)",
+        "date": "2026-11-25"
+      },
+      {
+        "id": "S2",
+        "kind": "material",
+        "label": "Inspiration screenshots (16)",
+        "who": "Product owner",
+        "date": "2026-11-25"
+      },
+      {
+        "id": "S3",
+        "kind": "earlier",
+        "label": "Competitive analysis",
+        "name": "research/competitive-analysis.md",
+        "date": "2026-11-20"
+      },
+      {
+        "id": "S4",
+        "kind": "material",
+        "label": "Project rules",
+        "name": "CLAUDE.md",
+        "date": "2026-11-20"
+      },
+      {
+        "id": "S5",
+        "kind": "material",
+        "label": "Build plan",
+        "name": "PLAN.md",
+        "date": "2026-11-20"
+      },
+      {
+        "id": "S6",
+        "kind": "material",
+        "label": "Dashboard code",
+        "name": "dashboard/, branch extension-plan-and-factors, commit 5b895d2",
+        "date": "2026-11-25"
+      },
+      {
+        "id": "S7",
+        "kind": "material",
+        "label": "Chrome Web Store user data FAQ",
+        "name": "https://developer.chrome.com/docs/webstore/program-policies/user-data-faq",
+        "date": "2026-11-25"
+      },
+      {
+        "id": "S8",
+        "kind": "material",
+        "label": "Offset claim rules",
+        "name": "UK CMA Green Claims Code https://www.gov.uk/government/publications/green-claims-code-making-environmental-claims/environmental-claims-on-goods-and-services ; EU Directive 2024/825 via Heuking commentary 22 Apr 2026 https://www.heuking.de/en/news-events/newsletter-articles/detail/advertising-environmental-or-climate-friendliness-through-greenhouse-gas-offset-measures-under-the-empco-directive.html",
+        "date": "2026-11-25"
+      },
+      {
+        "id": "S9",
+        "kind": "client",
+        "label": "Owner decisions after research",
+        "who": "Product owner",
+        "date": "2026-11-25"
+      }
+    ],
+    "materials": [
+      {
+        "name": "Inspiration screenshots (16)",
+        "kind": "screenshots",
+        "location": "Shared in chat, 25 Nov 2026 (files 9.png to 24.webp in the session images folder)",
+        "access": "given",
+        "covers": "AI Impact Offset popup; Offset AI sign-in, dashboard, projects, pricing, account; Carbolt popup and dashboard; GreenByte popup and leaderboard; GreenQuery overview and analytics; RainforestLand marketplace. No first-run or sign-up form for any product"
+      },
+      {
+        "name": "Competitive analysis",
+        "kind": "other",
+        "location": "research/competitive-analysis.md",
+        "access": "given",
+        "covers": "13 extensions: account rules, metrics, method, offset steps, unique proposition"
+      },
+      {
+        "name": "Project rules and build plan",
+        "kind": "other",
+        "location": "CLAUDE.md; PLAN.md",
+        "access": "given",
+        "covers": "Constraints, proposition, planned steps and open items"
+      },
+      {
+        "name": "Dashboard code",
+        "kind": "repo",
+        "location": "dashboard/ on branch extension-plan-and-factors, commit 5b895d2",
+        "access": "given",
+        "covers": "Routes, header, preview page, Untitled UI components, factors.js"
+      }
+    ],
+    "decisions": [
+      {
+        "value": "Usage is tracked automatically by the extension; nobody types habits into a calculator. In v0 the screens show sample usage standing in for what the extension will measure. The existing Calculator and Results pages retire.",
+        "from": [
+          "S1"
+        ]
+      },
+      {
+        "value": "Sign-up first, then onboarding, then dashboard",
+        "from": [
+          "S1"
+        ],
+        "conflicts_with": "CLAUDE.md:6, 47, 55-56 and PLAN.md:73 (no account needed to see value; no accounts in v0)"
+      },
+      {
+        "value": "Side navigation: Metrics, Offset, Leaderboard, Settings",
+        "from": [
+          "S1"
+        ]
+      },
+      {
+        "value": "Onboarding: Back on every step, Skip on Your goal and Pin Ecobex, answers saved as they go",
+        "from": [
+          "S1"
+        ]
+      },
+      {
+        "value": "Leaderboard ranks % change against each person's own last week; opt-in with a nickname; sample players in v0",
+        "from": [
+          "S1"
+        ]
+      },
+      {
+        "value": "Settings: habits and goal, profile and leaderboard visibility, pause tracking, clear data and sign out",
+        "from": [
+          "S1"
+        ]
+      },
+      {
+        "value": "First visit shows sample data labelled 'sample', no % change until there is a previous week; ranges Today, 7 days, 30 days",
+        "from": [
+          "S1"
+        ]
+      },
+      {
+        "value": "Offset provider shown as an 'example' card until one is chosen",
+        "from": [
+          "S1",
+          "S5"
+        ]
+      },
+      {
+        "value": "Contribute: choose a project from three or four cards showing provider, project, removal or avoidance, standard, price per tonne and the cost of the last 30 days; review a summary; continue to the provider's page in a new tab",
+        "from": [
+          "S9"
+        ]
+      },
+      {
+        "value": "On return, ask 'Did you contribute?'; a yes is saved in the browser and listed separately; the footprint stays as measured",
+        "from": [
+          "S9"
+        ]
+      },
+      {
+        "value": "Copy says 'contribute', never 'offset' or 'neutral'",
+        "from": [
+          "S9"
+        ]
+      },
+      {
+        "value": "Settings sits in a separate utility group at the bottom of the side navigation",
+        "from": [
+          "S9"
+        ]
+      }
+    ],
+    "resolved": [
+      {
+        "question": "What does finishing 'Offset my impact' mean?",
+        "answer": "Choosing a project with the cost shown, then linking out; see the Contribute decisions",
+        "from": [
+          "S9"
+        ]
+      }
+    ],
+    "inputs_from": [
+      "competitive-analysis"
+    ],
+    "out_of_scope": [
+      {
+        "item": "How we calculate, Reduce my footprint, Weekly recap and share",
+        "why": "Second run"
+      },
+      {
+        "item": "Toolbar popup",
+        "why": "Dropped from this run"
+      },
+      {
+        "item": "Step-by-step walks of named competitors",
+        "why": "Owner chose no competitor walk"
+      },
+      {
+        "item": "Payments and buying offsets in Ecobex",
+        "why": "Offset only links out to a verified provider"
+      },
+      {
+        "item": "Backend, real accounts, real tracking",
+        "why": "Frontend-only v0"
+      }
+    ],
+    "defaults": [
+      {
+        "value": "Research exclusions: none",
+        "from": [
+          "S1"
+        ]
+      },
+      {
+        "value": "Time ranges Today, 7 days, 30 days; no custom range",
+        "from": [
+          "S1"
+        ]
+      },
+      {
+        "value": "Habits with no figure are listed as 'not estimated yet' with no number",
+        "from": [
+          "S1"
+        ]
+      }
+    ]
+  },
+  "modules": [
+    {
+      "id": "01",
+      "name": "Getting started"
+    },
+    {
+      "id": "02",
+      "name": "Metrics"
+    },
+    {
+      "id": "03",
+      "name": "Contribute"
+    },
+    {
+      "id": "04",
+      "name": "Leaderboard"
+    },
+    {
+      "id": "05",
+      "name": "Settings"
+    }
+  ],
+  "connections": [
+    {
+      "module": "01",
+      "owns": "Install to first dashboard: sign-up, consent, goal, habits, pin",
+      "fed_by": [],
+      "feeds": [
+        "02",
+        "05"
+      ]
+    },
+    {
+      "module": "02",
+      "owns": "Reading the footprint by period and category, with the method one tap away",
+      "fed_by": [
+        "01",
+        "05"
+      ],
+      "feeds": [
+        "03",
+        "04"
+      ]
+    },
+    {
+      "module": "03",
+      "owns": "Choosing a verified project and leaving for its provider; recording a contribution",
+      "fed_by": [
+        "02"
+      ],
+      "feeds": [
+        "02"
+      ]
+    },
+    {
+      "module": "04",
+      "owns": "Opt-in weekly ranking by change against one's own last week",
+      "fed_by": [
+        "02",
+        "05"
+      ],
+      "feeds": []
+    },
+    {
+      "module": "05",
+      "owns": "Tracked habits, goal, profile, leaderboard visibility, pause, clear data, sign out",
+      "fed_by": [
+        "01"
+      ],
+      "feeds": [
+        "02",
+        "04"
+      ]
+    }
+  ],
+  "screens": [
+    {
+      "id": "SC01",
+      "name": "Welcome",
+      "code": "WelcomePage",
+      "module": "01",
+      "status": "planned"
+    },
+    {
+      "id": "SC02",
+      "name": "Sign up",
+      "code": "SignUpPage",
+      "module": "01",
+      "status": "planned"
+    },
+    {
+      "id": "SC03",
+      "name": "Privacy and consent",
+      "code": "ConsentPage",
+      "module": "01",
+      "status": "planned"
+    },
+    {
+      "id": "SC04",
+      "name": "Your goal",
+      "code": "GoalPage",
+      "module": "01",
+      "status": "planned"
+    },
+    {
+      "id": "SC05",
+      "name": "What to track",
+      "code": "HabitsPage",
+      "module": "01",
+      "status": "planned"
+    },
+    {
+      "id": "SC06",
+      "name": "Pin Ecobex",
+      "code": "PinPage",
+      "module": "01",
+      "status": "planned"
+    },
+    {
+      "id": "SC07",
+      "name": "Metrics",
+      "code": "MetricsPage",
+      "module": "02",
+      "status": "planned"
+    },
+    {
+      "id": "SC08",
+      "name": "Category detail",
+      "code": "CategoryPanel",
+      "module": "02",
+      "status": "planned"
+    },
+    {
+      "id": "SC09",
+      "name": "Contribute: projects",
+      "code": "ContributePage",
+      "module": "03",
+      "status": "planned"
+    },
+    {
+      "id": "SC10",
+      "name": "Project summary",
+      "code": "ProjectSummaryPage",
+      "module": "03",
+      "status": "planned"
+    },
+    {
+      "id": "SC11",
+      "name": "Provider's site (external)",
+      "code": "external",
+      "module": "03",
+      "status": "planned"
+    },
+    {
+      "id": "SC12",
+      "name": "Leaderboard",
+      "code": "LeaderboardPage",
+      "module": "04",
+      "status": "planned"
+    },
+    {
+      "id": "SC13",
+      "name": "Join the leaderboard",
+      "code": "JoinLeaderboardPanel",
+      "module": "04",
+      "status": "planned"
+    },
+    {
+      "id": "SC14",
+      "name": "Settings",
+      "code": "SettingsPage",
+      "module": "05",
+      "status": "planned"
+    },
+    {
+      "id": "SC15",
+      "name": "Sign in",
+      "code": "SignInPage",
+      "module": "01",
+      "status": "planned"
+    },
+    {
+      "id": "SC16",
+      "name": "Clear data confirmation",
+      "code": "ClearDataPage",
+      "module": "05",
+      "status": "planned"
+    }
+  ],
+  "entry_points": [
+    {
+      "id": "E1",
+      "kind": "external",
+      "label": "Installed from the Chrome Web Store: Ecobex opens its welcome tab",
+      "opens": "SC01",
+      "source": "flows-brief.json (S1); Mozilla Extension Workshop onboarding guidance (R5)",
+      "designed": true
+    },
+    {
+      "id": "E2",
+      "kind": "navigation",
+      "label": "Side navigation: Metrics",
+      "opens": "SC07",
+      "source": "flows-brief.json decision: side navigation (S1)",
+      "designed": true
+    },
+    {
+      "id": "E3",
+      "kind": "navigation",
+      "label": "Side navigation: Contribute",
+      "opens": "SC09",
+      "source": "flows-brief.json (S1, S9)",
+      "designed": true
+    },
+    {
+      "id": "E4",
+      "kind": "navigation",
+      "label": "Side navigation: Leaderboard",
+      "opens": "SC12",
+      "source": "flows-brief.json (S1)",
+      "designed": true
+    },
+    {
+      "id": "E5",
+      "kind": "navigation",
+      "label": "Side navigation, utility group: Settings",
+      "opens": "SC14",
+      "source": "flows-brief.json (S1); navigation-patterns: utility kept apart from global",
+      "designed": true
+    },
+    {
+      "id": "E6",
+      "kind": "card",
+      "label": "'Contribute to a climate project' card on Metrics",
+      "opens": "SC09",
+      "source": "F3 entries; pattern from Offset AI dashboard banner (S2, 11.webp)",
+      "designed": true
+    },
+    {
+      "id": "E7",
+      "kind": "external",
+      "label": "Opening the Ecobex dashboard again later (bookmark or extension page)",
+      "opens": "SC07",
+      "source": "Inferred: every returning visit; signed-out visits go to SC15",
+      "designed": false
+    },
+    {
+      "id": "E8",
+      "kind": "external",
+      "label": "Reopening the welcome tab after closing it mid-onboarding",
+      "opens": "SC01",
+      "source": "F1 branch 'Closed the tab?' resumes at the last step; no researched product documents this case",
+      "designed": true
+    },
+    {
+      "id": "E9",
+      "kind": "card",
+      "label": "'Join the leaderboard' from Settings, leaderboard visibility",
+      "opens": "SC13",
+      "source": "flows-brief.json decision: Settings includes leaderboard visibility (S1)",
+      "designed": true
+    },
+    {
+      "id": "E10",
+      "kind": "external",
+      "label": "Coming back to the Ecobex tab after visiting the provider",
+      "opens": "SC10",
+      "source": "F3 step 5; owner decision to ask 'Did you contribute?' on return (S9)",
+      "designed": true
+    }
+  ],
+  "flows": [
+    {
+      "id": "F1",
+      "name": "Sign up and onboarding",
+      "role": "Person who installs Ecobex",
+      "serves": [
+        "U1"
+      ],
+      "trigger": "Ecobex has just been installed from the Chrome Web Store",
+      "measure": "Seven screens from the welcome tab to the dashboard, two of them skippable; target under two minutes, to be tested",
+      "entries": [
+        "E1",
+        "E8"
+      ],
+      "status": "planned",
+      "steps": [
+        {
+          "label": "Welcome",
+          "screen": "SC01",
+          "user": "Reads what Ecobex does and clicks Get started",
+          "system": "Shows one line on what Ecobex measures, a progress indicator (1 of 6) and Get started; 'Already have an account? Sign in' below"
+        },
+        {
+          "label": "Enter name, email",
+          "screen": "SC02",
+          "user": "Types a name and an email and continues",
+          "system": "Checks the email format, saves name and email in this browser only (demo, no password) and moves on",
+          "requires": "A name and a valid email"
+        },
+        {
+          "label": "Agree to tracking",
+          "screen": "SC03",
+          "user": "Reads what is measured and what is never seen, then agrees",
+          "system": "Lists what is measured (time, data, AI prompt counts and site domains, kept on this device) and what is never collected (full URLs, page content, prompt text); tracking starts only after 'Agree and start tracking'",
+          "requires": "An affirmative agreement (Chrome Web Store policy)"
+        },
+        {
+          "label": "Pick a goal",
+          "screen": "SC04",
+          "user": "Chooses Reduce my footprint, Understand it, or Contribute for what I can't reduce",
+          "system": "Saves the goal; Back and Skip are available"
+        },
+        {
+          "label": "Choose habits",
+          "screen": "SC05",
+          "user": "Switches video streaming and AI chats on or off",
+          "system": "Saves the choices; browsing and video calls are listed as 'not estimated yet' because factors.js has no figure for them"
+        },
+        {
+          "label": "Pin Ecobex",
+          "screen": "SC06",
+          "user": "Pins the icon from Chrome's puzzle-piece menu, or skips",
+          "system": "Shows where the puzzle-piece menu is and what pinning gives; Skip keeps it on the setup checklist"
+        },
+        {
+          "label": "See dashboard",
+          "screen": "SC07",
+          "user": "Lands on Metrics",
+          "system": "Shows the footprint with sample usage labelled 'Sample', and a setup checklist for any skipped step"
+        }
+      ],
+      "success": "Onboarding is marked complete; the person is on Metrics with tracking agreed, and the next visit goes straight to the dashboard",
+      "branches": [
+        {
+          "at": 1,
+          "decision": "Have an account?",
+          "label": "Sign in",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "Enter email",
+              "user": "Types the email used before",
+              "system": "Finds the account saved in this browser and opens Metrics",
+              "screen": "SC15"
+            }
+          ],
+          "ends": "success",
+          "note": "Works only in the browser where the account was created; there is no backend in v0"
+        },
+        {
+          "at": 2,
+          "decision": "Email valid?",
+          "label": "No",
+          "kind": "error",
+          "steps": [
+            {
+              "label": "Fix email",
+              "user": "Reads the message and corrects the email",
+              "system": "Says what is wrong: a missing @ or a missing domain such as .com"
+            }
+          ],
+          "ends": "rejoin",
+          "rejoin": 2
+        },
+        {
+          "at": 3,
+          "decision": "Agree?",
+          "label": "Not now",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "Read why",
+              "user": "Chooses Not now",
+              "system": "Explains that Ecobex cannot measure anything without agreement and that nothing has been collected; keeps the place in onboarding"
+            }
+          ],
+          "ends": "exit",
+          "note": "The welcome tab can be reopened later (E8) and resumes at this step"
+        },
+        {
+          "at": 4,
+          "decision": "Skip?",
+          "label": "Skip",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "Skip goal",
+              "user": "Clicks Skip",
+              "system": "Leaves the goal unset and adds 'Set a goal' to the setup checklist"
+            }
+          ],
+          "ends": "rejoin",
+          "rejoin": 5
+        },
+        {
+          "at": 5,
+          "decision": "Closed the tab?",
+          "label": "Closed",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "Leave midway",
+              "user": "Closes the welcome tab",
+              "system": "Keeps every answer given so far in this browser"
+            }
+          ],
+          "ends": "exit",
+          "note": "Reopening the welcome tab resumes at the last unfinished step"
+        },
+        {
+          "at": 6,
+          "decision": "Skip?",
+          "label": "Skip",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "Skip pinning",
+              "user": "Clicks Skip",
+              "system": "Adds 'Pin Ecobex' to the setup checklist on Metrics"
+            }
+          ],
+          "ends": "rejoin",
+          "rejoin": 7
+        }
+      ],
+      "acceptance": [
+        {
+          "given": "a new install",
+          "when": "the person finishes or skips every step",
+          "then": "they land on Metrics and the next visit opens Metrics directly"
+        },
+        {
+          "given": "the consent screen",
+          "when": "the person chooses Not now",
+          "then": "no usage is recorded and reopening the welcome tab returns to the consent screen"
+        },
+        {
+          "given": "the sign-up form",
+          "when": "the email has no @",
+          "then": "the form stays on the step and says the email needs an @"
+        }
+      ],
+      "open_questions": [
+        {
+          "question": "Sign-up first conflicts with the confirmed proposition 'no account needed to see value' (CLAUDE.md:6, PLAN.md:73). Keep sign-up first and reword the proposition, or revisit?",
+          "for": "team"
+        },
+        {
+          "question": "What do the three goals change later in the product, if anything?",
+          "for": "team"
+        },
+        {
+          "question": "Should the Pin step detect that Ecobex is pinned (the Chrome extensions action API can report it: https://developer.chrome.com/docs/extensions/reference/api/action), or only explain it?",
+          "for": "team"
+        }
+      ]
+    },
+    {
+      "id": "F2",
+      "name": "Check my metrics",
+      "role": "Person who installs Ecobex",
+      "serves": [
+        "U2"
+      ],
+      "trigger": "Wants to know what their digital habits cost the planet this week",
+      "measure": "CO₂ and water ranges readable on arrival without scrolling; any category in one click",
+      "entries": [
+        "E2",
+        "E7"
+      ],
+      "status": "planned",
+      "steps": [
+        {
+          "label": "Open Metrics",
+          "screen": "SC07",
+          "user": "Opens Metrics from the side navigation",
+          "system": "Shows Today by default with the 'Sample' label in v0"
+        },
+        {
+          "label": "Read CO₂ and water",
+          "screen": "SC07",
+          "user": "Reads the totals",
+          "system": "Shows CO₂ and water each as a central value with a shaded range and '≈', an everyday equivalent such as phone charges, and the change against the previous period"
+        },
+        {
+          "label": "Change period",
+          "screen": "SC07",
+          "user": "Switches between Today, 7 days and 30 days",
+          "system": "Updates totals, the trend chart and the category list"
+        },
+        {
+          "label": "Open a category",
+          "screen": "SC08",
+          "user": "Clicks a category such as Video streaming",
+          "system": "Shows that category's range, its share of the total, its top sites by domain and the trend"
+        },
+        {
+          "label": "See the method",
+          "screen": "SC08",
+          "user": "Opens 'How is this calculated?'",
+          "system": "Shows the figure used, its range, confidence and source from factors.js in a panel on the same screen"
+        }
+      ],
+      "success": "The person knows the range of their CO₂ and water for the chosen period, which category drives it, and where each number comes from",
+      "branches": [
+        {
+          "at": 1,
+          "decision": "Tracking on?",
+          "label": "Paused",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "See paused banner",
+              "user": "Reads the banner",
+              "system": "Says tracking is paused and until when, with Resume"
+            }
+          ],
+          "ends": "rejoin",
+          "rejoin": 2
+        },
+        {
+          "at": 2,
+          "decision": "Previous period?",
+          "label": "None yet",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "No comparison",
+              "user": "Reads the totals",
+              "system": "Shows no % change and says the comparison appears after the first full week"
+            }
+          ],
+          "ends": "rejoin",
+          "rejoin": 3
+        },
+        {
+          "at": 4,
+          "decision": "Has a figure?",
+          "label": "Not estimated",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "See not estimated",
+              "user": "Opens video calls, or water for streaming",
+              "system": "Shows the habit with 'not estimated yet' and no number, with a line on why"
+            }
+          ],
+          "ends": "rejoin",
+          "rejoin": 3
+        }
+      ],
+      "acceptance": [
+        {
+          "given": "a person on their first day",
+          "when": "they open Metrics",
+          "then": "the totals show as ranges labelled 'Sample' and no % change is shown"
+        },
+        {
+          "given": "Metrics on 7 days",
+          "when": "the person opens Video calls",
+          "then": "it shows 'not estimated yet' and no number"
+        },
+        {
+          "given": "any figure on Metrics",
+          "when": "the person opens 'How is this calculated?'",
+          "then": "the factor, its range and its source link from factors.js are shown"
+        }
+      ],
+      "open_questions": [
+        {
+          "question": "Which everyday equivalents should Metrics use? Every product picks a different set (phone charges, km driven, bottles, Netflix minutes).",
+          "for": "team"
+        },
+        {
+          "question": "The method panel covers one figure; the full 'How we calculate' page is in the second run. Is a panel enough for v0?",
+          "for": "team"
+        }
+      ]
+    },
+    {
+      "id": "F3",
+      "name": "Contribute to a climate project",
+      "role": "Person who installs Ecobex",
+      "serves": [
+        "U3"
+      ],
+      "trigger": "Sees their footprint and wants to do something about what they cannot reduce",
+      "measure": "Provider, price per tonne and standard seen before leaving; three clicks from the side navigation to the provider's page",
+      "entries": [
+        "E3",
+        "E6",
+        "E10"
+      ],
+      "status": "planned",
+      "steps": [
+        {
+          "label": "Open Contribute",
+          "screen": "SC09",
+          "user": "Opens Contribute from the side navigation or the card on Metrics",
+          "system": "Shows the last 30 days as a CO₂ range and explains that contributing funds a project and does not cancel their emissions"
+        },
+        {
+          "label": "Compare projects",
+          "screen": "SC09",
+          "user": "Reads three or four project cards",
+          "system": "Each card shows provider, project, type (removal or avoidance), standard, price per tonne and 'your last 30 days ≈ $ at this price'"
+        },
+        {
+          "label": "Review summary",
+          "screen": "SC10",
+          "user": "Picks a project",
+          "system": "Shows a summary with the same facts, what the provider will ask for, and Continue to provider"
+        },
+        {
+          "label": "Continue to provider",
+          "screen": "SC11",
+          "user": "Clicks Continue to provider",
+          "system": "Opens the provider's project page in a new tab; Ecobex takes no payment"
+        },
+        {
+          "label": "Record contribution",
+          "screen": "SC10",
+          "user": "Comes back and answers 'Did you contribute?'",
+          "system": "If yes, saves the project and date in this browser and lists it under 'Your contributions'; the footprint stays as measured",
+          "requires": "Optional"
+        }
+      ],
+      "success": "The provider's page has opened in a new tab after the person saw provider, price per tonne and standard; a contribution is recorded if they said so, and the footprint is unchanged",
+      "branches": [
+        {
+          "at": 2,
+          "decision": "Provider chosen?",
+          "label": "Not yet",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "See example cards",
+              "user": "Reads the cards",
+              "system": "Labels every card 'Example' and disables Continue to provider until real providers are chosen"
+            }
+          ],
+          "ends": "rejoin",
+          "rejoin": 3,
+          "note": "The v0 state until the open provider decision is made"
+        },
+        {
+          "at": 2,
+          "decision": "Below minimum?",
+          "label": "Too small",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "Cover longer",
+              "user": "Picks 3 months or a year instead",
+              "system": "Recalculates the amount and the cost for the longer period"
+            }
+          ],
+          "ends": "rejoin",
+          "rejoin": 3
+        },
+        {
+          "at": 3,
+          "decision": "Right project?",
+          "label": "Back",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "Back to projects",
+              "user": "Clicks Back",
+              "system": "Returns to the cards with the scroll kept"
+            }
+          ],
+          "ends": "rejoin",
+          "rejoin": 2
+        },
+        {
+          "at": 4,
+          "decision": "Provider page loads?",
+          "label": "Fails",
+          "kind": "error",
+          "steps": [
+            {
+              "label": "Read link",
+              "user": "Returns to the Ecobex tab",
+              "system": "Keeps the summary open with the provider's address to try again later"
+            }
+          ],
+          "ends": "exit"
+        },
+        {
+          "at": 5,
+          "decision": "Contributed?",
+          "label": "Not yet",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "Nothing saved",
+              "user": "Chooses Not yet",
+              "system": "Records nothing and closes the question"
+            }
+          ],
+          "ends": "success"
+        }
+      ],
+      "acceptance": [
+        {
+          "given": "the projects list",
+          "when": "the person reads any card",
+          "then": "it shows provider, standard, removal or avoidance, price per tonne and the cost for their last 30 days"
+        },
+        {
+          "given": "a project summary",
+          "when": "the person clicks Continue to provider",
+          "then": "the provider's page opens in a new tab and no payment happens in Ecobex"
+        },
+        {
+          "given": "a recorded contribution",
+          "when": "the person opens Metrics",
+          "then": "the footprint is unchanged and the contribution is listed separately"
+        }
+      ],
+      "open_questions": [
+        {
+          "question": "Which three or four verified providers and projects, at what price per tonne and to which standard? None is chosen yet (PLAN.md:76).",
+          "for": "team"
+        },
+        {
+          "question": "Do the chosen providers accept amounts as small as a month of digital use? Gold Standard sells per tonne and its minimum was not found.",
+          "for": "team"
+        },
+        {
+          "question": "Should Ecobex list tree-planting providers that say they are not certified offsets, or only certified ones?",
+          "for": "team"
+        },
+        {
+          "question": "Are referral or affiliate links allowed? They would affect how neutral the list is.",
+          "for": "team"
+        }
+      ]
+    },
+    {
+      "id": "F4",
+      "name": "Leaderboard",
+      "role": "Person who installs Ecobex",
+      "serves": [
+        "U4"
+      ],
+      "trigger": "Curious how their week compares with others",
+      "measure": "Joined and ranked in two steps; own position always visible",
+      "entries": [
+        "E4",
+        "E9"
+      ],
+      "status": "planned",
+      "steps": [
+        {
+          "label": "Open Leaderboard",
+          "screen": "SC12",
+          "user": "Opens Leaderboard from the side navigation",
+          "system": "Shows the board of sample players, clearly labelled 'Sample players', ranked by % change against each player's own last week, with Join"
+        },
+        {
+          "label": "Choose a nickname",
+          "screen": "SC13",
+          "user": "Clicks Join and types a nickname",
+          "system": "Explains that only the nickname and the % change are shown, never the name, email or totals",
+          "requires": "A nickname"
+        },
+        {
+          "label": "See my rank",
+          "screen": "SC12",
+          "user": "Reads the board",
+          "system": "Adds the person under their nickname and pins their own row, even below the visible top of the list"
+        }
+      ],
+      "success": "The person appears on the weekly board under a nickname, ranked by change against their own last week, and can see their own row",
+      "branches": [
+        {
+          "at": 1,
+          "decision": "Join?",
+          "label": "Just looking",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "Browse board",
+              "user": "Reads the board without joining",
+              "system": "Keeps Join available; nothing about the person is shown"
+            }
+          ],
+          "ends": "success"
+        },
+        {
+          "at": 2,
+          "decision": "Nickname OK?",
+          "label": "Taken or blank",
+          "kind": "error",
+          "steps": [
+            {
+              "label": "Change nickname",
+              "user": "Types another nickname",
+              "system": "Says the nickname is empty or already used"
+            }
+          ],
+          "ends": "rejoin",
+          "rejoin": 2
+        },
+        {
+          "at": 3,
+          "decision": "Last week's data?",
+          "label": "None yet",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "Not ranked yet",
+              "user": "Reads their row",
+              "system": "Shows 'Not ranked yet: you'll appear after your first full week'"
+            }
+          ],
+          "ends": "success"
+        }
+      ],
+      "acceptance": [
+        {
+          "given": "a person who has not joined",
+          "when": "they open Leaderboard",
+          "then": "they see only sample players and a Join button, and no data of theirs"
+        },
+        {
+          "given": "a person in their first week",
+          "when": "they join",
+          "then": "their row says 'Not ranked yet'"
+        },
+        {
+          "given": "a joined person",
+          "when": "they turn off leaderboard visibility in Settings",
+          "then": "their row disappears from the board"
+        }
+      ],
+      "open_questions": [
+        {
+          "question": "Does a week with tracking paused count towards the ranking, or is it shown as a partial week?",
+          "for": "team"
+        },
+        {
+          "question": "% change rewards heavy users most (the largest drops come from the highest users). Should the change be capped or banded?",
+          "for": "team"
+        },
+        {
+          "question": "Should two people whose ranges overlap be shown as tied?",
+          "for": "team"
+        },
+        {
+          "question": "Does the week reset on the person's local Sunday or at one global time?",
+          "for": "team"
+        }
+      ]
+    },
+    {
+      "id": "F5",
+      "name": "Settings",
+      "role": "Person who installs Ecobex",
+      "serves": [
+        "U5"
+      ],
+      "trigger": "Wants to change what Ecobex tracks, how they appear, or to stop tracking for a while",
+      "measure": "Any setting changed in two clicks from Settings, saved without a separate Save step",
+      "entries": [
+        "E5"
+      ],
+      "status": "planned",
+      "steps": [
+        {
+          "label": "Open Settings",
+          "screen": "SC14",
+          "user": "Opens Settings from the utility group at the bottom of the side navigation",
+          "system": "Shows sections: Tracking, Goal, Profile and leaderboard, Pause, Data and account"
+        },
+        {
+          "label": "Edit tracking",
+          "screen": "SC14",
+          "user": "Switches a habit on or off or changes the goal",
+          "system": "Saves at once and says that past figures for that habit stay in history"
+        },
+        {
+          "label": "Pause tracking",
+          "screen": "SC14",
+          "user": "Chooses Pause for 1 hour, until tomorrow, or until I resume",
+          "system": "Pauses at once, says paused time cannot be filled in later, and shows a paused banner on Metrics"
+        },
+        {
+          "label": "See confirmation",
+          "screen": "SC14",
+          "user": "Reads the note under the changed setting",
+          "system": "Shows 'Saved' under the setting; Resume appears if tracking is paused"
+        }
+      ],
+      "success": "The change is saved in this browser and Metrics and the Leaderboard reflect it on the next visit",
+      "branches": [
+        {
+          "at": 2,
+          "decision": "Profile change?",
+          "label": "Edit profile",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "Edit name, email, nickname",
+              "user": "Changes name, email or nickname, or turns leaderboard visibility off",
+              "system": "Saves at once; turning visibility off removes them from the board"
+            }
+          ],
+          "ends": "rejoin",
+          "rejoin": 4
+        },
+        {
+          "at": 2,
+          "decision": "Email valid?",
+          "label": "No",
+          "kind": "error",
+          "steps": [
+            {
+              "label": "Fix email",
+              "user": "Corrects the email",
+              "system": "Says what is wrong with it and keeps the old email until it is valid"
+            }
+          ],
+          "ends": "rejoin",
+          "rejoin": 2
+        },
+        {
+          "at": 3,
+          "decision": "Pause ends?",
+          "label": "Time's up",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "Auto-resume",
+              "user": "Opens Ecobex later",
+              "system": "Has resumed tracking at the chosen time and says so once on Metrics"
+            }
+          ],
+          "ends": "rejoin",
+          "rejoin": 4
+        },
+        {
+          "at": 4,
+          "decision": "Clear data?",
+          "label": "Clear everything",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "Confirm on a page",
+              "user": "Clicks Clear data, reads what will go, and types CLEAR",
+              "system": "Shows a confirmation page listing what is deleted and that it cannot be undone",
+              "screen": "SC16"
+            },
+            {
+              "label": "Start again",
+              "user": "Confirms",
+              "system": "Deletes account, answers, history and contributions from this browser and opens the welcome tab",
+              "screen": "SC01"
+            }
+          ],
+          "ends": "success"
+        },
+        {
+          "at": 4,
+          "decision": "Sign out?",
+          "label": "Sign out",
+          "kind": "alternate",
+          "steps": [
+            {
+              "label": "Signed out",
+              "user": "Clicks Sign out",
+              "system": "Keeps the data in this browser and shows Sign in",
+              "screen": "SC15"
+            }
+          ],
+          "ends": "exit"
+        }
+      ],
+      "acceptance": [
+        {
+          "given": "tracking paused for 1 hour",
+          "when": "the hour ends",
+          "then": "tracking resumes and Metrics says so once"
+        },
+        {
+          "given": "Clear data",
+          "when": "the person confirms by typing CLEAR",
+          "then": "nothing Ecobex stored remains in the browser and the welcome tab opens"
+        },
+        {
+          "given": "a habit switched off",
+          "when": "the person opens Metrics",
+          "then": "past figures for that habit stay in history and no new usage is added"
+        }
+      ],
+      "open_questions": [
+        {
+          "question": "When a habit is switched off, should its past figures stay in totals, be hidden, or be deleted?",
+          "for": "team"
+        },
+        {
+          "question": "Should Clear data offer an export first? GreenQuery, which needs no account, offers CSV export.",
+          "for": "team"
+        }
+      ]
+    }
+  ],
+  "research": [
+    {
+      "id": "R1",
+      "flow": "F1",
+      "kind": "comparable",
+      "product": "Offset AI",
+      "source": "https://dashboard.offsetai.app/get-started",
+      "source_kind": "live site",
+      "captured": "2026-11-25",
+      "steps": [
+        "Create account",
+        "Install extension",
+        "Offset",
+        "You're live"
+      ],
+      "notes": [
+        "Name, email, password; explains the account keeps history across browsers"
+      ],
+      "not_verified": [
+        "Steps 2 to 4"
+      ]
+    },
+    {
+      "id": "R2",
+      "flow": "F1",
+      "kind": "comparable",
+      "product": "AIrth",
+      "source": "https://getairth.com/auth",
+      "source_kind": "live site",
+      "captured": "2026-11-25",
+      "steps": [
+        "Install",
+        "Track",
+        "Sign in",
+        "Dashboard"
+      ],
+      "notes": [
+        "Passwordless: Google or magic link"
+      ],
+      "not_verified": [
+        "Post-install pages"
+      ]
+    },
+    {
+      "id": "R3",
+      "flow": "F1",
+      "kind": "analogous",
+      "product": "Grammarly",
+      "source": "https://mobbin.com/flows/1d0b78d2-f696-489e-a84c-268513341743",
+      "source_kind": "mobbin",
+      "captured": "2026-11-25",
+      "steps": [
+        "Sign up",
+        "Verify email code",
+        "Profile question",
+        "Plan",
+        "Home"
+      ],
+      "notes": [
+        "Step count, Back, Skip step"
+      ],
+      "not_verified": [
+        "16 of 21 screens"
+      ]
+    },
+    {
+      "id": "R4",
+      "flow": "F1",
+      "kind": "analogous",
+      "product": "Loom",
+      "source": "https://mobbin.com/flows/71293e43-0211-4017-853c-0b8871af50e9",
+      "source_kind": "mobbin",
+      "captured": "2026-11-25",
+      "steps": [
+        "Sign up",
+        "Usage question",
+        "Invite",
+        "Home with checklist"
+      ],
+      "notes": [
+        "Persistent setup checklist on home; pin described in help centre as a Chrome menu action"
+      ],
+      "not_verified": [
+        "16 of 21 screens"
+      ]
+    },
+    {
+      "id": "R5",
+      "flow": "F1",
+      "kind": "pattern",
+      "product": "Mozilla Extension Workshop onboarding",
+      "source": "https://extensionworkshop.com/documentation/develop/onboard-upboard-offboard-users/",
+      "source_kind": "guideline",
+      "captured": "2026-11-25",
+      "steps": [
+        "Welcome tab on install",
+        "Show where it lives",
+        "One action to try"
+      ],
+      "notes": [
+        "Avoid requiring account setup before use"
+      ],
+      "not_verified": []
+    },
+    {
+      "id": "R6",
+      "flow": "F1",
+      "kind": "pattern",
+      "product": "Chrome Web Store user data policy",
+      "source": "https://developer.chrome.com/docs/webstore/program-policies/user-data-faq",
+      "source_kind": "guideline",
+      "captured": "2026-11-25",
+      "steps": [
+        "In-product disclosure",
+        "Affirmative agreement",
+        "Collection begins"
+      ],
+      "notes": [
+        "Store listing or privacy policy alone does not satisfy it"
+      ],
+      "not_verified": []
+    },
+    {
+      "id": "R7",
+      "flow": "F2",
+      "kind": "analogous",
+      "product": "RescueTime",
+      "source": "https://help.rescuetime.com/article/30-dashboard",
+      "source_kind": "help centre",
+      "captured": "2026-11-25",
+      "steps": [
+        "Today by default",
+        "Category breakdown",
+        "Switch period",
+        "Drill down"
+      ],
+      "notes": [
+        "Compares with previous period; early data framed as a baseline"
+      ],
+      "not_verified": [
+        "Empty state"
+      ]
+    },
+    {
+      "id": "R8",
+      "flow": "F2",
+      "kind": "comparable",
+      "product": "GreenQuery",
+      "source": "https://chromewebstore.google.com/detail/greenquery/ncbhfkcfbgmomklbimabfkoppejkibpp",
+      "source_kind": "app",
+      "captured": "2026-11-25",
+      "steps": [
+        "Graphs by week or month",
+        "% change vs previous period",
+        "Filter history"
+      ],
+      "notes": [
+        "Listing names a % change against the previous period; Offset AI's dashboard also shows a % change per tile (competitive analysis)"
+      ],
+      "not_verified": [
+        "Screens"
+      ]
+    },
+    {
+      "id": "R9",
+      "flow": "F2",
+      "kind": "pattern",
+      "product": "ONS Service Manual: showing uncertainty",
+      "source": "https://service-manual.ons.gov.uk/data-visualisation/guidance/showing-uncertainty-in-charts",
+      "source_kind": "guideline",
+      "captured": "2026-11-25",
+      "steps": [
+        "Shaded band or dot with range",
+        "Plain-language explanation"
+      ],
+      "notes": [
+        "Recommends a shaded band or dot with range, with a plain-language explanation; no error bars on bar charts"
+      ],
+      "not_verified": []
+    },
+    {
+      "id": "R10",
+      "flow": "F2",
+      "kind": "pattern",
+      "product": "NN/g empty states",
+      "source": "https://www.nngroup.com/articles/empty-state-interface-design/",
+      "source_kind": "guideline",
+      "captured": "2026-11-25",
+      "steps": [
+        "Say no data exists",
+        "Explain in place",
+        "Offer a next step or demo data"
+      ],
+      "notes": [],
+      "not_verified": []
+    },
+    {
+      "id": "R11",
+      "flow": "F3",
+      "kind": "comparable",
+      "product": "Gold Standard Marketplace",
+      "source": "https://marketplace.goldstandard.org/",
+      "source_kind": "live site",
+      "captured": "2026-11-25",
+      "steps": [
+        "Browse project cards",
+        "Add to cart",
+        "Pay",
+        "Certificate",
+        "Retired on registry"
+      ],
+      "notes": [
+        "Price per tonne on every card, e.g. $10 to $39 per tonne as read"
+      ],
+      "not_verified": [
+        "Minimum quantity"
+      ]
+    },
+    {
+      "id": "R12",
+      "flow": "F3",
+      "kind": "comparable",
+      "product": "RainforestLand",
+      "source": "https://www.rainforest.land/marketplace",
+      "source_kind": "live site",
+      "captured": "2026-11-25",
+      "steps": [
+        "Pick project",
+        "Set tree quantity",
+        "See CO₂ estimate",
+        "Sign up",
+        "Checkout"
+      ],
+      "notes": [
+        "Says its tree planting is not a certified offset"
+      ],
+      "not_verified": [
+        "Live update of the estimate"
+      ]
+    },
+    {
+      "id": "R13",
+      "flow": "F3",
+      "kind": "comparable",
+      "product": "Offset AI plans",
+      "source": "https://www.offsetai.app/where-your-money-goes",
+      "source_kind": "live site",
+      "captured": "2026-11-25",
+      "steps": [
+        "Create account",
+        "Choose plan",
+        "Fund projects"
+      ],
+      "notes": [
+        "Lowest plan $5/month covers 66 kg CO₂e; no standard or price per tonne stated"
+      ],
+      "not_verified": [
+        "In-app project screen"
+      ]
+    },
+    {
+      "id": "R14",
+      "flow": "F3",
+      "kind": "comparable",
+      "product": "Ecologi",
+      "source": "https://ecologi.com/solutions/individual-and-family",
+      "source_kind": "live site",
+      "captured": "2026-11-25",
+      "steps": [
+        "Pick plan",
+        "Subscribe",
+        "Profile shows impact"
+      ],
+      "notes": [
+        "Names Gold Standard and VCS; says funding does not cancel your own emissions"
+      ],
+      "not_verified": [
+        "One-off purchase"
+      ]
+    },
+    {
+      "id": "R15",
+      "flow": "F3",
+      "kind": "pattern",
+      "product": "Offset claim rules: CMA Green Claims Code, EU 2024/825, Oxford Offsetting Principles",
+      "source": "https://www.gov.uk/government/publications/green-claims-code-making-environmental-claims/environmental-claims-on-goods-and-services",
+      "source_kind": "guideline",
+      "captured": "2026-11-25",
+      "steps": [],
+      "notes": [
+        "CMA: name the scheme, do not imply zero emissions",
+        "EU 2024/825 via Heuking commentary: no neutral claims based on offsets from 27 Sep 2026",
+        "Oxford Offsetting Principles (https://www.smithschool.ox.ac.uk/research/oxford-offsetting-principles): keep contribution claims apart from compensation claims"
+      ],
+      "not_verified": [
+        "EU directive text",
+        "Oxford Principles PDF"
+      ]
+    },
+    {
+      "id": "R16",
+      "flow": "F4",
+      "kind": "analogous",
+      "product": "Apple Fitness competitions",
+      "source": "https://support.apple.com/guide/watch/apd68a69f5c7",
+      "source_kind": "help centre",
+      "captured": "2026-11-25",
+      "steps": [
+        "Invite",
+        "Accept",
+        "7-day competition",
+        "Score against own goals"
+      ],
+      "notes": [
+        "Nearest pattern to ranking change against one's own baseline"
+      ],
+      "not_verified": [
+        "Tie-breaking"
+      ]
+    },
+    {
+      "id": "R17",
+      "flow": "F4",
+      "kind": "analogous",
+      "product": "Duolingo Leagues",
+      "source": "https://blog.duolingo.com/duolingo-leagues-leaderboards/",
+      "source_kind": "help centre",
+      "captured": "2026-11-25",
+      "steps": [
+        "Weekly league",
+        "See own rank",
+        "Reset Sunday local time"
+      ],
+      "notes": [
+        "Leaving is done by making the profile private"
+      ],
+      "not_verified": [
+        "Newcomer placement"
+      ]
+    },
+    {
+      "id": "R18",
+      "flow": "F4",
+      "kind": "pattern",
+      "product": "Allcott 2011, neighbour comparison trials",
+      "source": "https://econpapers.repec.org/RePEc:eee:pubeco:v:95:y:2011:i:9-10:p:1082-1095",
+      "source_kind": "guideline",
+      "captured": "2026-11-25",
+      "steps": [],
+      "notes": [
+        "Average 2.0% reduction; 6.3% in the highest-use decile, 0.3% in the lowest (abstract)"
+      ],
+      "not_verified": [
+        "Full text"
+      ]
+    },
+    {
+      "id": "R19",
+      "flow": "F5",
+      "kind": "analogous",
+      "product": "RescueTime pause and data",
+      "source": "https://help.rescuetime.com/article/413-the-rescuetime-assistant",
+      "source_kind": "help centre",
+      "captured": "2026-11-25",
+      "steps": [
+        "Toggle Paused",
+        "Choose duration or resume time",
+        "Erase logged time",
+        "Delete account"
+      ],
+      "notes": [
+        "Paused time cannot be recovered",
+        "A timed pause resumed with no alert, per a 2022 forum thread: https://community.rescuetime.com/t/notification-when-tracking-is-unpaused/87"
+      ],
+      "not_verified": [
+        "Preset durations"
+      ]
+    },
+    {
+      "id": "R20",
+      "flow": "F5",
+      "kind": "pattern",
+      "product": "MOJ Design System: confirm an action",
+      "source": "https://design-patterns.service.justice.gov.uk/patterns/confirm-an-action/",
+      "source_kind": "guideline",
+      "captured": "2026-11-25",
+      "steps": [
+        "Confirmation page",
+        "Summary of what goes",
+        "Warning button",
+        "Success banner"
+      ],
+      "notes": [
+        "Confirms on a full page rather than a modal"
+      ],
+      "not_verified": []
+    },
+    {
+      "id": "R21",
+      "flow": "F5",
+      "kind": "pattern",
+      "product": "GitHub Danger Zone",
+      "source": "https://docs.github.com/en/repositories/creating-and-managing-repositories/deleting-a-repository",
+      "source_kind": "help centre",
+      "captured": "2026-11-25",
+      "steps": [
+        "Danger Zone",
+        "Accept warnings",
+        "Type name",
+        "Delete"
+      ],
+      "notes": [
+        "Typed confirmation for rare, irreversible actions"
+      ],
+      "not_verified": []
+    }
+  ],
+  "lifecycles": [
+    {
+      "object": "Onboarding",
+      "initial": "not_started",
+      "states": [
+        {
+          "id": "not_started",
+          "label": "Not started"
+        },
+        {
+          "id": "in_progress",
+          "label": "In progress"
+        },
+        {
+          "id": "complete",
+          "label": "Complete"
+        }
+      ],
+      "transitions": [
+        {
+          "from": "not_started",
+          "to": "in_progress",
+          "trigger": "Clicks Get started",
+          "who": "Person who installs Ecobex"
+        },
+        {
+          "from": "in_progress",
+          "to": "complete",
+          "trigger": "Finishes or skips the last step",
+          "who": "Person who installs Ecobex"
+        },
+        {
+          "from": "complete",
+          "to": "not_started",
+          "trigger": "Clears all data in Settings",
+          "who": "Person who installs Ecobex"
+        }
+      ],
+      "terminal": []
+    },
+    {
+      "object": "Tracking",
+      "initial": "awaiting_consent",
+      "states": [
+        {
+          "id": "awaiting_consent",
+          "label": "Awaiting consent"
+        },
+        {
+          "id": "active",
+          "label": "Active"
+        },
+        {
+          "id": "paused",
+          "label": "Paused"
+        }
+      ],
+      "transitions": [
+        {
+          "from": "awaiting_consent",
+          "to": "active",
+          "trigger": "Agrees on the consent screen",
+          "who": "Person who installs Ecobex"
+        },
+        {
+          "from": "active",
+          "to": "paused",
+          "trigger": "Pauses in Settings",
+          "who": "Person who installs Ecobex"
+        },
+        {
+          "from": "paused",
+          "to": "active",
+          "trigger": "Resumes, or the pause time ends",
+          "who": "Person, or Ecobex at the chosen time"
+        },
+        {
+          "from": "active",
+          "to": "awaiting_consent",
+          "trigger": "Clears all data in Settings",
+          "who": "Person who installs Ecobex"
+        },
+        {
+          "from": "paused",
+          "to": "awaiting_consent",
+          "trigger": "Clears all data in Settings",
+          "who": "Person who installs Ecobex"
+        }
+      ],
+      "terminal": []
+    },
+    {
+      "object": "Leaderboard membership",
+      "initial": "not_joined",
+      "states": [
+        {
+          "id": "not_joined",
+          "label": "Not joined"
+        },
+        {
+          "id": "not_ranked",
+          "label": "Joined, not ranked yet"
+        },
+        {
+          "id": "ranked",
+          "label": "Ranked"
+        }
+      ],
+      "transitions": [
+        {
+          "from": "not_joined",
+          "to": "not_ranked",
+          "trigger": "Joins with a nickname",
+          "who": "Person who installs Ecobex"
+        },
+        {
+          "from": "not_ranked",
+          "to": "ranked",
+          "trigger": "First full week of data",
+          "who": "Ecobex"
+        },
+        {
+          "from": "not_ranked",
+          "to": "not_joined",
+          "trigger": "Turns visibility off in Settings",
+          "who": "Person who installs Ecobex"
+        },
+        {
+          "from": "ranked",
+          "to": "not_joined",
+          "trigger": "Turns visibility off in Settings",
+          "who": "Person who installs Ecobex"
+        }
+      ],
+      "terminal": []
+    },
+    {
+      "object": "Contribution",
+      "initial": "browsing",
+      "states": [
+        {
+          "id": "browsing",
+          "label": "Browsing projects"
+        },
+        {
+          "id": "provider_opened",
+          "label": "Provider opened"
+        },
+        {
+          "id": "recorded",
+          "label": "Recorded"
+        }
+      ],
+      "transitions": [
+        {
+          "from": "browsing",
+          "to": "provider_opened",
+          "trigger": "Clicks Continue to provider",
+          "who": "Person who installs Ecobex"
+        },
+        {
+          "from": "provider_opened",
+          "to": "recorded",
+          "trigger": "Answers yes to 'Did you contribute?'",
+          "who": "Person who installs Ecobex"
+        },
+        {
+          "from": "provider_opened",
+          "to": "browsing",
+          "trigger": "Answers Not yet",
+          "who": "Person who installs Ecobex"
+        }
+      ],
+      "terminal": [
+        "recorded"
+      ]
+    }
+  ],
+  "screen_states": [
+    {
+      "screen": "SC07",
+      "loading": "Skeleton tiles while the browser's storage is read",
+      "empty": "Sample usage labelled 'Sample', with a line that real figures appear once the extension measures them",
+      "error": "If the browser blocks storage, says Ecobex cannot save here and shows sample data only",
+      "refresh": "Keeps the chosen period",
+      "offline": "Works; everything is local"
+    },
+    {
+      "screen": "SC08",
+      "loading": "Skeleton chart",
+      "empty": "'Not estimated yet' for habits with no figure",
+      "error": "Same as Metrics",
+      "refresh": "Keeps the category and period",
+      "offline": "Works"
+    },
+    {
+      "screen": "SC09",
+      "loading": "Skeleton cards",
+      "empty": "Example cards labelled 'Example' until providers are chosen",
+      "error": "If a card's price is missing, says 'price not available' rather than hiding the card",
+      "refresh": "Keeps the list",
+      "offline": "Cards show; Continue to provider says it needs a connection"
+    },
+    {
+      "screen": "SC12",
+      "loading": "Skeleton rows",
+      "empty": "Sample players only, labelled 'Sample players'",
+      "error": "Same as Metrics",
+      "refresh": "Keeps the person's row pinned",
+      "offline": "Works; sample data is local"
+    },
+    {
+      "screen": "SC14",
+      "loading": "Instant",
+      "empty": "Defaults from onboarding",
+      "error": "If saving fails, says the change was not saved and keeps the old value",
+      "refresh": "Shows saved values",
+      "offline": "Works"
+    }
+  ],
+  "gaps": [
+    {
+      "id": "G1",
+      "priority": "P1",
+      "gap": "Project rules say there are no accounts and value comes without one; the owner decided sign-up comes first",
+      "where": "CLAUDE.md:6, 47, 55-56; PLAN.md:73",
+      "flow": "F1",
+      "status": "open"
+    },
+    {
+      "id": "G2",
+      "priority": "P1",
+      "gap": "The planned onboarding has no consent step, which the Chrome Web Store requires before any browsing data is collected",
+      "where": "PLAN.md:110-116",
+      "flow": "F1",
+      "status": "open"
+    },
+    {
+      "id": "G3",
+      "priority": "P1",
+      "gap": "No verified provider, price per tonne or standard is chosen, so Contribute can only show example cards",
+      "where": "PLAN.md:76",
+      "flow": "F3",
+      "status": "open"
+    },
+    {
+      "id": "G4",
+      "priority": "P2",
+      "gap": "Sign in works only in the browser where the account was made; on another browser the person is stuck with no account",
+      "where": "F1 branch 'Have an account?'; CLAUDE.md:44 (no backend)",
+      "flow": "F1",
+      "status": "open"
+    },
+    {
+      "id": "G5",
+      "priority": "P2",
+      "gap": "The copied Untitled UI set has no side navigation, toast or empty-state component, all of which these flows use",
+      "where": "dashboard/src/components/untitled/",
+      "flow": "F2",
+      "status": "open"
+    },
+    {
+      "id": "G6",
+      "priority": "P2",
+      "gap": "Current pages are Home, Calculator and Results for typing habits in by hand, which the automatic-tracking decision retires",
+      "where": "dashboard/src/App.jsx:17-20; dashboard/src/pages/Home.jsx:10-18",
+      "flow": "F2",
+      "status": "open"
+    },
+    {
+      "id": "G7",
+      "priority": "P2",
+      "gap": "The Home page promises video calls and water for every habit; factors.js has no video-call figure and no streaming water",
+      "where": "dashboard/src/pages/Home.jsx:10; dashboard/src/data/factors.js",
+      "flow": "F2",
+      "status": "open"
+    },
+    {
+      "id": "G8",
+      "priority": "P2",
+      "gap": "Leaderboard, Settings and Contribute choices are in no PLAN.md step",
+      "where": "PLAN.md:110-145",
+      "flow": "F4",
+      "status": "open"
+    },
+    {
+      "id": "G10",
+      "priority": "P3",
+      "gap": "What a signed-out person sees when they reopen the dashboard is not designed; the flows assume Sign in",
+      "where": "Entry point E7",
+      "flow": "F2",
+      "status": "open"
+    },
+    {
+      "id": "G11",
+      "priority": "P3",
+      "gap": "PLAN.md has the dashboard show prompts and energy as well; F2 leads with CO₂ and water only",
+      "where": "PLAN.md:119",
+      "flow": "F2",
+      "status": "open"
+    },
+    {
+      "id": "G12",
+      "priority": "P2",
+      "gap": "CLAUDE.md says the dashboard shows whatever the user types in onboarding, which the automatic-tracking decision replaces",
+      "where": "CLAUDE.md:45",
+      "flow": "F2",
+      "status": "open"
+    },
+    {
+      "id": "G9",
+      "priority": "P3",
+      "gap": "Whether chosen providers accept amounts as small as a month of digital use is unknown",
+      "where": "Research R11 (per-tonne pricing, minimum not found)",
+      "flow": "F3",
+      "status": "open"
+    }
+  ],
+  "recommendations": [
+    {
+      "text": "Update CLAUDE.md and PLAN.md to record sign-up first, the consent step, automatic tracking, side navigation, Contribute, Leaderboard and Settings, and reword the proposition's 'no account needed' line",
+      "flow": "F1",
+      "cites": {
+        "gaps": [
+          "G1",
+          "G2",
+          "G8",
+          "G11",
+          "G12"
+        ],
+        "sources": [
+          "S1",
+          "S9"
+        ]
+      }
+    },
+    {
+      "text": "Put the consent screen straight after sign-up and start (sample) tracking only after it is agreed",
+      "flow": "F1",
+      "cites": {
+        "gaps": [
+          "G2"
+        ],
+        "research": [
+          "R6"
+        ]
+      }
+    },
+    {
+      "text": "Choose three or four certified providers with a published price per tonne and minimum, preferring removals as PLAN.md already says, and confirm they accept small amounts before building Contribute",
+      "flow": "F3",
+      "cites": {
+        "gaps": [
+          "G3",
+          "G9"
+        ],
+        "research": [
+          "R11",
+          "R15"
+        ],
+        "sources": [
+          "S5"
+        ]
+      }
+    },
+    {
+      "text": "Add side navigation, toast and empty-state components to the copied Untitled UI set before building the dashboard",
+      "flow": "F2",
+      "cites": {
+        "gaps": [
+          "G5"
+        ]
+      }
+    },
+    {
+      "text": "Retire the Calculator and Results pages and fix the Home copy so it promises only habits with a sourced figure",
+      "flow": "F2",
+      "cites": {
+        "gaps": [
+          "G6",
+          "G7"
+        ]
+      }
+    },
+    {
+      "text": "Tell people on the Sign in screen that their account lives in this browser only, so another browser does not look like a lost account",
+      "flow": "F1",
+      "cites": {
+        "gaps": [
+          "G4"
+        ]
+      }
+    },
+    {
+      "text": "Show ranges as a central value with a shaded band and one plain-language line",
+      "flow": "F2",
+      "cites": {
+        "research": [
+          "R9"
+        ],
+        "sources": [
+          "S4"
+        ]
+      }
+    }
+  ],
+  "competitor_flows": [],
+  "scope": [
+    "Five flows for the one role: sign up and onboarding, check my metrics, contribute to a climate project, leaderboard, settings",
+    "Module names are this flow map's own until an information architecture exists"
+  ]
+}
