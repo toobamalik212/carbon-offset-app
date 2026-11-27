@@ -1,4 +1,4 @@
-import { Outlet, Route, Routes } from 'react-router'
+import { Navigate, Outlet, Route, Routes } from 'react-router'
 import Header from './components/Header.jsx'
 import Calculator from './pages/Calculator.jsx'
 import Results from './pages/Results.jsx'
@@ -8,7 +8,11 @@ import Preview from './pages/Preview.jsx'
 import OnboardingModule from './modules/onboarding/OnboardingModule.jsx'
 import SignInPage from './modules/onboarding/SignInPage.jsx'
 import StartRedirect from './modules/onboarding/StartRedirect.jsx'
+import AppShell from './components/app-shell/AppShell.jsx'
 import MetricsPage from './modules/metrics/MetricsPage.jsx'
+import ContributePage from './modules/contribute/ContributePage.jsx'
+import LeaderboardPage from './modules/leaderboard/LeaderboardPage.jsx'
+import SettingsPage from './modules/settings/SettingsPage.jsx'
 
 // The older pages keep the top header until their modules replace them
 function LegacyLayout() {
@@ -34,8 +38,14 @@ export default function App() {
       <Route path="/onboarding" element={<StartRedirect />} />
       <Route path="/sign-in" element={<SignInPage />} />
 
-      {/* Module 02: Metrics (flow F2), a placeholder for now */}
-      <Route path="/metrics" element={<MetricsPage />} />
+      {/* The dashboard: side navigation with one tab per module (flows F2 to F5) */}
+      <Route element={<AppShell />}>
+        <Route path="/dashboard" element={<MetricsPage />} />
+        <Route path="/contribute" element={<ContributePage />} />
+        <Route path="/leaderboard" element={<LeaderboardPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+      </Route>
+      <Route path="/metrics" element={<Navigate to="/dashboard" replace />} />
 
       <Route element={<LegacyLayout />}>
         <Route path="/calculator" element={<Calculator />} />

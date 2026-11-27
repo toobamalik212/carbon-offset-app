@@ -8,7 +8,7 @@ const EMPTY = {
   account: null, // { name, email, createdAt }
   signedIn: false,
   consentAt: null, // when the person agreed to tracking
-  goal: null, // 'reduce' | 'understand' | 'contribute'
+  goals: [], // any of 'reduce', 'understand', 'contribute'
   habits: { streaming: true, aiChats: true },
   pinned: false,
   skipped: [], // step ids the person skipped, shown later as a setup checklist
@@ -19,7 +19,9 @@ const EMPTY = {
 // Some browsers block storage; fall back to sample-only behaviour instead of crashing
 export function loadOnboarding() {
   try {
-    const saved = JSON.parse(localStorage.getItem(KEY))
+    const saved = JSON.parse(localStorage.getItem(KEY)) ?? {}
+    // Older saves had a single goal; turn it into a list
+    if (saved.goal && !saved.goals) saved.goals = [saved.goal]
     return { ...EMPTY, ...saved }
   } catch {
     return { ...EMPTY }

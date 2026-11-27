@@ -22,7 +22,7 @@ export default function SignInPage() {
       return setError("There's no Ecobex account with that email in this browser.")
     }
     const next = saveOnboarding({ signedIn: true })
-    navigate(next.complete ? '/metrics' : `/onboarding/${resumeStep(next)}`)
+    navigate(next.complete ? '/dashboard' : `/onboarding/${resumeStep(next)}`)
   }
 
   return (

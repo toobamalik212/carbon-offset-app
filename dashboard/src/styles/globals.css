@@ -3,8 +3,7 @@
 @import "tailwindcss";
 @import "./theme.css";
 /* Self-hosted fonts (files are bundled with the app, so there are no requests to Google or any other host). */
-@import "@fontsource-variable/outfit";
-@import "@fontsource-variable/inter";
+@import "@fontsource-variable/plus-jakarta-sans";
 
 @plugin "tailwindcss-react-aria-components";
 @plugin "tailwindcss-animate";

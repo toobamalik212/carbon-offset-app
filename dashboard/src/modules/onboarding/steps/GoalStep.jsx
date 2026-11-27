@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ArrowRight } from '@untitledui/icons'
 import { Button } from '@/components/base/buttons/button'
-import { RadioButton, RadioGroup } from '@/components/base/radio-buttons/radio-buttons'
+import { Checkbox } from '@/components/base/checkbox/checkbox'
 import OnboardingLayout from '../OnboardingLayout.jsx'
 
 const goals = [
@@ -10,29 +10,40 @@ const goals = [
   { id: 'contribute', label: "Contribute for what I can't reduce", hint: 'Support a verified climate project.' },
 ]
 
+// People can pick more than one goal
 export default function GoalStep({ state, onBack, onNext, onSkip }) {
-  const [goal, setGoal] = useState(state.goal)
+  const [chosen, setChosen] = useState(state.goals)
+
+  function toggle(id, on) {
+    setChosen(on ? [...chosen, id] : chosen.filter((goal) => goal !== id))
+  }
 
   return (
     <OnboardingLayout
       stepId="goal"
       title="What brings you to Ecobex?"
-      description="You can change this later in Settings."
+      description="Pick as many as you like. You can change this later in Settings."
       onBack={onBack}
       onSkip={onSkip}
       footer={
-        <Button size="lg" iconTrailing={ArrowRight} isDisabled={!goal} onPress={() => onNext({ goal })}>
+        <Button size="lg" iconTrailing={ArrowRight} isDisabled={chosen.length === 0} onPress={() => onNext({ goals: chosen })}>
           Continue
         </Button>
       }
     >
-      <RadioGroup aria-label="Your goal" value={goal} onChange={setGoal} size="md" className="gap-3">
+      <div role="group" aria-label="Your goals" className="flex flex-col gap-3">
         {goals.map((option) => (
           <div key={option.id} className="rounded-xl border border-secondary p-4">
-            <RadioButton value={option.id} label={option.label} hint={option.hint} size="md" />
+            <Checkbox
+              size="md"
+              label={option.label}
+              hint={option.hint}
+              isSelected={chosen.includes(option.id)}
+              onChange={(on) => toggle(option.id, on)}
+            />
           </div>
         ))}
-      </RadioGroup>
+      </div>
     </OnboardingLayout>
   )
 }

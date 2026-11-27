@@ -41,7 +41,7 @@ export default function OnboardingModule() {
     const isLast = stepId === STEPS.at(-1).id
     setState(saveOnboarding({ ...changes, complete: isLast || state.complete }))
     // Someone finishing a skipped step from the dashboard checklist goes straight back
-    navigate(id && !state.complete ? `/onboarding/${id}` : '/metrics')
+    navigate(id && !state.complete ? `/onboarding/${id}` : '/dashboard')
   }
 
   const Screen = SCREENS[stepId]
